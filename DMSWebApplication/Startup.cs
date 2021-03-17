@@ -20,7 +20,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Service;
+using Service.Interfaces;
+using Service.Implementation;
 
 namespace DMSWebApplication
 {
@@ -48,12 +49,7 @@ namespace DMSWebApplication
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DMSWebApplication", Version = "v1" });
             });
-            services.AddCors(c => c.AddPolicy("MyPolicyCors", builder =>
-            {
-                builder.AllowAnyOrigin()
-                  .AllowAnyMethod()
-                  .AllowAnyHeader();
-            }));
+            
 
             services.AddDbContext<Context>(item => item.UseSqlServer(
             Configuration.GetConnectionString("IdentityConnection"),
@@ -69,6 +65,8 @@ namespace DMSWebApplication
                
 
             });
+            services.AddCors();
+
             // JWT
 
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
@@ -123,7 +121,12 @@ namespace DMSWebApplication
             app.UseAuthentication();
 
             app.UseHttpsRedirection();
-           // app.UseAuthorization();
+            //app.UseAuthorization();
+            app.UseCors(builder =>
+            
+                builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
+                  .AllowAnyMethod()
+                  .AllowAnyHeader());
 
 
             app.UseRouting();

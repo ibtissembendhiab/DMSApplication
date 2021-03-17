@@ -32,9 +32,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Implementation\" />
-  </ItemGroup>
-
 </Project>

@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service
+namespace Service.Interfaces
 {
-    public interface IAuth
+    public class IFolder
     {
-        Task<string> Login(LoginModel model);
-        Task<object> Register(RegisterModel userModel);
+       // Task<object> Folder(Folder  folder );
     }
 }

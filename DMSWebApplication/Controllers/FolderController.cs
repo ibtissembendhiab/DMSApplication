@@ -1,4 +1,5 @@
 ﻿using Domain.Data;
+using Domain.Model;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,11 +15,12 @@ namespace DMSWebApplication.Controllers
     public class FolderController : ControllerBase
     {
         private readonly Context _context;
-        public FolderController(Context _context)
-        {
-            this._context = _context;
-        }
+       // public FolderController(Context _context);
+        
+        private readonly ApplicationSettings _appSettings;
+        
+    }
 
        
-    }
+    
 }
