@@ -27,3 +27,17 @@ E:\PFE\DMSWebApplication\Domain\obj\Debug\net5.0\Domain.dll
 E:\PFE\DMSWebApplication\Domain\obj\Debug\net5.0\ref\Domain.dll
 E:\PFE\DMSWebApplication\Domain\obj\Debug\net5.0\Domain.pdb
 E:\PFE\DMSWebApplication\Domain\obj\Debug\net5.0\Domain.genruntimeconfig.cache
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\bin\Debug\net5.0\Domain.deps.json
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\bin\Debug\net5.0\Domain.runtimeconfig.json
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\bin\Debug\net5.0\Domain.runtimeconfig.dev.json
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\bin\Debug\net5.0\Domain.dll
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\bin\Debug\net5.0\ref\Domain.dll
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\bin\Debug\net5.0\Domain.pdb
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\obj\Debug\net5.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\obj\Debug\net5.0\Domain.AssemblyInfoInputs.cache
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\obj\Debug\net5.0\Domain.AssemblyInfo.cs
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\obj\Debug\net5.0\Domain.csproj.CoreCompileInputs.cache
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\obj\Debug\net5.0\Domain.dll
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\obj\Debug\net5.0\ref\Domain.dll
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\obj\Debug\net5.0\Domain.pdb
+C:\Users\yasmi\OneDrive\Bureau\PFE\pfe\DMSApplication\Domain\obj\Debug\net5.0\Domain.genruntimeconfig.cache

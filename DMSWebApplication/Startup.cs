@@ -22,6 +22,11 @@ using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Service.Interfaces;
 using Service.Implementation;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace DMSWebApplication
 {
@@ -89,9 +94,17 @@ namespace DMSWebApplication
                 };
             });
 
+            // Upload File
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
         }
-   
+
 
         private void AddJwtBearer(Action<object> p)
         {
@@ -118,19 +131,24 @@ namespace DMSWebApplication
                 context.Database.EnsureCreated();
             }
 
+            app.UseRouting();
             app.UseAuthentication();
-
+            app.UseAuthorization();
             app.UseHttpsRedirection();
-            //app.UseAuthorization();
-            app.UseCors(builder =>
             
+            app.UseCors(builder =>
                 builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
                   .AllowAnyMethod()
                   .AllowAnyHeader());
 
+            app.UseStaticFiles();
+            ////app.UseStaticFiles(new StaticFileOptions()
+           /// {
+               // FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+               // RequestPath = new PathString("/Resources")
+           // });
 
-            app.UseRouting();
-            app.UseCors();
+            //app.UseCors("MyPolicyCors");
 
             app.UseEndpoints(endpoints =>
             {

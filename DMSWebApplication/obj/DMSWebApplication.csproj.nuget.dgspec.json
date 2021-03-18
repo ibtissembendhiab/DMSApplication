@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\PFE\\DMSWebApplication\\DMSWebApplication\\DMSWebApplication.csproj": {}
+    "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\DMSWebApplication\\DMSWebApplication.csproj": {}
   },
   "projects": {
-    "E:\\PFE\\DMSWebApplication\\DMSWebApplication\\DMSWebApplication.csproj": {
+    "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\DMSWebApplication\\DMSWebApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\PFE\\DMSWebApplication\\DMSWebApplication\\DMSWebApplication.csproj",
+        "projectUniqueName": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\DMSWebApplication\\DMSWebApplication.csproj",
         "projectName": "DMSWebApplication",
-        "projectPath": "E:\\PFE\\DMSWebApplication\\DMSWebApplication\\DMSWebApplication.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "E:\\PFE\\DMSWebApplication\\DMSWebApplication\\obj\\",
+        "projectPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\DMSWebApplication\\DMSWebApplication.csproj",
+        "packagesPath": "C:\\Users\\yasmi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\DMSWebApplication\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\yasmi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "E:\\PFE\\DMSWebApplication\\Service\\Service.csproj": {
-                "projectPath": "E:\\PFE\\DMSWebApplication\\Service\\Service.csproj"
+              "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Service\\Service.csproj": {
+                "projectPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Service\\Service.csproj"
               }
             }
           }
@@ -107,21 +107,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\PFE\\DMSWebApplication\\Domain\\Domain.csproj": {
+    "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\PFE\\DMSWebApplication\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "E:\\PFE\\DMSWebApplication\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "E:\\PFE\\DMSWebApplication\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\yasmi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\yasmi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -199,28 +199,25 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\PFE\\DMSWebApplication\\Repository\\Repository.csproj": {
+    "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Repository\\Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\PFE\\DMSWebApplication\\Repository\\Repository.csproj",
+        "projectUniqueName": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Repository\\Repository.csproj",
         "projectName": "Repository",
-        "projectPath": "E:\\PFE\\DMSWebApplication\\Repository\\Repository.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "E:\\PFE\\DMSWebApplication\\Repository\\obj\\",
+        "projectPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Repository\\Repository.csproj",
+        "packagesPath": "C:\\Users\\yasmi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Repository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\yasmi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -234,8 +231,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "E:\\PFE\\DMSWebApplication\\Domain\\Domain.csproj": {
-                "projectPath": "E:\\PFE\\DMSWebApplication\\Domain\\Domain.csproj"
+              "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Domain\\Domain.csproj"
               }
             }
           }
@@ -302,28 +299,25 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\PFE\\DMSWebApplication\\Service\\Service.csproj": {
+    "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\PFE\\DMSWebApplication\\Service\\Service.csproj",
+        "projectUniqueName": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Service\\Service.csproj",
         "projectName": "Service",
-        "projectPath": "E:\\PFE\\DMSWebApplication\\Service\\Service.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "E:\\PFE\\DMSWebApplication\\Service\\obj\\",
+        "projectPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Service\\Service.csproj",
+        "packagesPath": "C:\\Users\\yasmi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\yasmi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -337,8 +331,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "E:\\PFE\\DMSWebApplication\\Repository\\Repository.csproj": {
-                "projectPath": "E:\\PFE\\DMSWebApplication\\Repository\\Repository.csproj"
+              "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Repository\\Repository.csproj": {
+                "projectPath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\Repository\\Repository.csproj"
               }
             }
           }
@@ -405,14 +399,11 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
