@@ -32,7 +32,6 @@ namespace Service.Implementation
            // _signInManager = signInManager;
             _appSettings = appSettings.Value;
             
-
         }
         public async Task<string> Login(LoginModel model)
         {

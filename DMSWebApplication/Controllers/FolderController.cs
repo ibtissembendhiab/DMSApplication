@@ -15,12 +15,10 @@ namespace DMSWebApplication.Controllers
     public class FolderController : ControllerBase
     {
         private readonly Context _context;
-       // public FolderController(Context _context);
-        
-        private readonly ApplicationSettings _appSettings;
-        
-    }
+        public FolderController(Context _context)
+        {
+            this._context = _context;
+        }
 
-       
-    
+    }
 }

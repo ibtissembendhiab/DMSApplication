@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1QpUx7hbFLRvSdXNGFchhITpEhqb1RgnKNZRGFrxSxlsLSdMsaD3gqq4CoZ0cPAdt2M9NzBci9/mGnSG+huB4Q==",
+  "dgSpecHash": "L8Hsgjbo1tfUhOEAwoeRB1VviR3iMHyc/S2ZYK4EkByzipDt/nw2PLcxJUShyC0kzUnmtyG6/aiVoZ27JAMpwQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\yasmi\\OneDrive\\Bureau\\Web_App\\pfe\\DMSApplication\\DMSWebApplication\\DMSWebApplication.csproj",
   "expectedPackageFiles": [
@@ -17,7 +17,7 @@
     "C:\\Users\\yasmi\\.nuget\\packages\\microsoft.aspnetcore.dataprotection.abstractions\\2.2.0\\microsoft.aspnetcore.dataprotection.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\yasmi\\.nuget\\packages\\microsoft.aspnetcore.hosting.abstractions\\2.2.0\\microsoft.aspnetcore.hosting.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\yasmi\\.nuget\\packages\\microsoft.aspnetcore.hosting.server.abstractions\\2.2.0\\microsoft.aspnetcore.hosting.server.abstractions.2.2.0.nupkg.sha512",
-    "C:\\Users\\yasmi\\.nuget\\packages\\microsoft.aspnetcore.http\\2.2.0\\microsoft.aspnetcore.http.2.2.0.nupkg.sha512",
+    "C:\\Users\\yasmi\\.nuget\\packages\\microsoft.aspnetcore.http\\2.2.2\\microsoft.aspnetcore.http.2.2.2.nupkg.sha512",
     "C:\\Users\\yasmi\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.2.0\\microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\yasmi\\.nuget\\packages\\microsoft.aspnetcore.http.extensions\\2.2.0\\microsoft.aspnetcore.http.extensions.2.2.0.nupkg.sha512",
     "C:\\Users\\yasmi\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",

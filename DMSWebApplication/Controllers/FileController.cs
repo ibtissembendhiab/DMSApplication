@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Domain.Data;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,6 +14,10 @@ namespace DMSWebApplication.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
-
+        private readonly Context _context;
+        public FileController(Context _context)
+        {
+            this._context = _context;
+        }
     }
 }

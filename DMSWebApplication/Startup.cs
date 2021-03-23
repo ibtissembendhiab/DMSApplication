@@ -101,8 +101,7 @@ namespace DMSWebApplication
                 o.MemoryBufferThreshold = int.MaxValue;
             });
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-
+           
         }
 
 
@@ -140,15 +139,17 @@ namespace DMSWebApplication
                 builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
                   .AllowAnyMethod()
                   .AllowAnyHeader());
+            app.UseCors("MyPolicyCors");
 
             app.UseStaticFiles();
-            ////app.UseStaticFiles(new StaticFileOptions()
-           /// {
+          //  app.UseStaticFiles(new StaticFileOptions()
+            //{
                // FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-               // RequestPath = new PathString("/Resources")
+              //  RequestPath = new PathString("/Resources")
            // });
 
-            //app.UseCors("MyPolicyCors");
+
+           
 
             app.UseEndpoints(endpoints =>
             {
