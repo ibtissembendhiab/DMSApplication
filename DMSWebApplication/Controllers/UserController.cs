@@ -140,12 +140,12 @@ namespace PFE.WebAPI.Controllers
 
         [HttpPost]
         [Route("Register")]
-        //POST : /api/ApplicationUser/Register
+        //POST : /api/User/Register
         public async Task<Object> Register(RegisterModel model) => await _authServices.Register(model);
 
         [HttpPost]
         [Route("Login")]
-        //POST :/api/ApplicationUser/Login
+        //POST :/api/User/Login
         public async Task<Object> Login(LoginModel model)
         {
             Object token = await _authServices.Login(model);

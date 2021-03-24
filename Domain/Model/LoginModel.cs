@@ -8,13 +8,13 @@ namespace Domain.Model
     {
         public string Username { get; set; }
         public string Password { get; set; }
-        public string Email { get; set; }
+        //public string Email { get; set; }
 
 
         public LoginModel(string a, string b)
 
         {
-            Email = a;
+            //Email = a;
             Password = b;
 
         }

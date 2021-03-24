@@ -27,3 +27,4 @@ E:\PFE\DMSWebApplication\Domain\obj\Debug\net5.0\Domain.dll
 E:\PFE\DMSWebApplication\Domain\obj\Debug\net5.0\ref\Domain.dll
 E:\PFE\DMSWebApplication\Domain\obj\Debug\net5.0\Domain.pdb
 E:\PFE\DMSWebApplication\Domain\obj\Debug\net5.0\Domain.genruntimeconfig.cache
+E:\PFE\DMSWebApplication\Domain\obj\Debug\net5.0\Domain.csprojAssemblyReference.cache
