@@ -22,6 +22,11 @@ using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Service.Interfaces;
 using Service.Implementation;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace DMSWebApplication
 {
@@ -49,7 +54,7 @@ namespace DMSWebApplication
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DMSWebApplication", Version = "v1" });
             });
-            
+
 
             services.AddDbContext<Context>(item => item.UseSqlServer(
             Configuration.GetConnectionString("IdentityConnection"),
@@ -62,7 +67,7 @@ namespace DMSWebApplication
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
-               
+
 
             });
             services.AddCors();
@@ -76,7 +81,8 @@ namespace DMSWebApplication
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddJwtBearer(x => {
+            }).AddJwtBearer(x =>
+            {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = false;
                 x.TokenValidationParameters = new TokenValidationParameters
@@ -89,9 +95,17 @@ namespace DMSWebApplication
                 };
             });
 
+            // Upload File
+            services.Configure<FormOptions>(o =>
+            {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         }
-   
+
 
         private void AddJwtBearer(Action<object> p)
         {
@@ -108,8 +122,8 @@ namespace DMSWebApplication
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DMSWebApplication v1"));
             }
 
-            
-//migration database 
+
+            //migration database 
 
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
@@ -118,24 +132,23 @@ namespace DMSWebApplication
                 context.Database.EnsureCreated();
             }
 
+            app.UseRouting();
             app.UseAuthentication();
-
+            app.UseAuthorization();
             app.UseHttpsRedirection();
-            //app.UseAuthorization();
+
             app.UseCors(builder =>
-            
                 builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
                   .AllowAnyMethod()
                   .AllowAnyHeader());
+            app.UseCors("MyPolicyCors");
 
-
-            app.UseRouting();
-            app.UseCors();
-
+            app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+           
         }
     }
 }

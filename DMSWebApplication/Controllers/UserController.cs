@@ -44,93 +44,6 @@ namespace PFE.WebAPI.Controllers
 
         }
 
-        /* [HttpPost]
-         [Route("Register")]
-         //POST : /api/ApplicationUser/Register
-         public async Task<Object> PostApplicationUser(UserModel model)
-         {
-             var applicationUser = new FullNameDbColumn
-             {
-                 UserName = model.UserName,
-                 Email = model.Email,
-                 FullName = model.FullName
-             };
-
-             try
-             {
-                 var result = await _userManager.CreateAsync(applicationUser, model.Password);
-                 return Ok(result);
-             }
-             catch (Exception)
-             {
-
-                 throw;
-             }
-         }
-
-
-             [HttpPost]
-             [Route("Login")]
-             //POST :/api/ApplicationUser/Login
-             public async Task<IActionResult> Login(LoginModel model)
-             {
-                 var user = await _userManager.FindByNameAsync(model.Username);
-                 if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
-                 {
-                     var tokenDescriptor = new SecurityTokenDescriptor
-                     {
-                         Subject = new ClaimsIdentity(new Claim[]
-                             {
-                             new Claim("UserID",user.Id.ToString())
-                             }),
-                         Expires = DateTime.UtcNow.AddDays(1),
-                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
-                     };
-
-                     var tokenHandler = new JwtSecurityTokenHandler();
-                     var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                     var token = tokenHandler.WriteToken(securityToken);
-                     return Ok(new { token });
-                 }
-                 else return BadRequest(new { message = "Username or password is incorrect !" });
-             }
-
-             [HttpGet]
-             [Authorize]
-             //GET : /api/UserProfile
-             public async Task<Object> GetUserProfile()
-             {
-                 string userId = User.Claims.First(c => c.Type == "UserID").Value;
-                 var user = await _userManager.FindByIdAsync(userId);
-                 return new
-                 {
-                     user.Id,
-                     user.FullName,
-                     user.Email,
-                     user.UserName,
-
-                 };
-             }
-
-             /*[HttpPost]
-             [Authorize]
-             //POST : /api/UpdateProfile
-             public async Task<Object> UpdateProfile(UserModel model)
-             {
-                 string userId = User.Claims.First(c => c.Type == "UserID").Value;
-                 var user = await _userManager.FindByIdAsync(userId);
-
-                 if (!string.IsNullOrEmpty(model.FullName))
-                     user.FullName = model.FullName;
-                 user.Email = model.Email;
-                 user.UserName = model.Email;
-                 user.PhoneNumber = model.Email;
-
-
-             }
-        */
-
-
 
 
         //[HttpGet]
@@ -155,35 +68,6 @@ namespace PFE.WebAPI.Controllers
             }
             else return BadRequest(new { message = "Username or password is incorrect !" });
         }
-        /*
-        [HttpGet]
-        [Authorize]
-        //GET : /api/UserProfile
-        public async Task<Object> GetUserProfile()
-        {
-            string userId = User.Claims.First(c => c.Type == "UserID").Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            return new
-            {
-                user.Id,
-                user.FullName,
-                user.Email,
-                user.UserName,
-
-            };
-        }
-
-        [HttpPost]
-        [Route("Update")]
-        //POST :/api/users/edit/id
-        public async Task<Object> UpdateAccount(string id, UserModel model)
-        {
-            Object user = await _authServices.Update(id, model);
-            if (user != null)
-            {
-                return Ok(new { user });
-            }
-            else return BadRequest(new { message = "Account not Found !" });
-        }*/
+      
     }
 }

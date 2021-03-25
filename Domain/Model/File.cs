@@ -22,7 +22,6 @@ namespace Domain.Model
 
         public File()
         {
-
         }
   
     }
