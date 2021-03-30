@@ -50,10 +50,7 @@ namespace DMSWebApplication
 
             services.AddControllers();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DMSWebApplication", Version = "v1" });
-            });
+            
 
 
             services.AddDbContext<Context>(item => item.UseSqlServer(

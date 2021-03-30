@@ -60,6 +60,8 @@ namespace Service.Implementation
         {
             var cUser = new User
             {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 UserName = model.Username,
                 Email = model.Email,
             };
