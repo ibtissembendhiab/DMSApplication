@@ -13,7 +13,7 @@ namespace Domain.Data
         {
 
         }
-          public DbSet<Folder> Folder { get; set; }
+        public DbSet<Folder> Folder { get; set; }
         public DbSet<File> File { get; set; }
 
         public DbSet<User> User { get; set; }

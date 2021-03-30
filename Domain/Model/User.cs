@@ -17,8 +17,10 @@ namespace Domain.Model
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public override string Email { get; set; }
+
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Folder> Folders { get; set; }
+        public List<IdentityUserRole<string>> Roles { get; set; }
 
         public User() { }
 

@@ -14,7 +14,7 @@ namespace Domain.Model
         public LoginModel(string a, string b)
 
         {
-            //Email = a;
+            Username = a;
             Password = b;
 
         }

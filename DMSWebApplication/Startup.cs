@@ -72,6 +72,7 @@ namespace DMSWebApplication
             });
             services.AddCors();
 
+
             // JWT
 
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
@@ -95,8 +96,10 @@ namespace DMSWebApplication
                 };
             });
 
-            // Upload File
-            services.Configure<FormOptions>(o =>
+          //  services.AddMvc().AddNewtonsoftJson();
+
+        // Upload File
+        services.Configure<FormOptions>(o =>
             {
                 o.ValueLengthLimit = int.MaxValue;
                 o.MultipartBodyLengthLimit = int.MaxValue;
@@ -113,7 +116,7 @@ namespace DMSWebApplication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -122,6 +125,7 @@ namespace DMSWebApplication
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DMSWebApplication v1"));
             }
 
+            var addrole = CreateRoles(serviceProvider);
 
             //migration database 
 
@@ -149,6 +153,24 @@ namespace DMSWebApplication
                 endpoints.MapControllers();
             });
            
+        }
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            //initializing custom roles 
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            string[] roleNames = { "Admin", "Employee" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    //create the roles and seed them to the database
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
         }
     }
 }

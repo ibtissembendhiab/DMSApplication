@@ -305,3 +305,4 @@ C:\Users\yasmi\OneDrive\Bureau\Web_App\pfe\DMSApplication\DMSWebApplication\obj\
 C:\Users\yasmi\OneDrive\Bureau\Web_App\pfe\DMSApplication\DMSWebApplication\obj\Debug\net5.0\ref\DMSWebApplication.dll
 C:\Users\yasmi\OneDrive\Bureau\Web_App\pfe\DMSApplication\DMSWebApplication\obj\Debug\net5.0\DMSWebApplication.pdb
 C:\Users\yasmi\OneDrive\Bureau\Web_App\pfe\DMSApplication\DMSWebApplication\obj\Debug\net5.0\DMSWebApplication.genruntimeconfig.cache
+C:\Users\yasmi\OneDrive\Bureau\Web_App\pfe\DMSApplication\DMSWebApplication\bin\Debug\net5.0\Newtonsoft.Json.dll
