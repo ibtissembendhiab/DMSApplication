@@ -28,6 +28,8 @@ namespace PFE.WebAPI.Controllers
         private UserManager<User> _userManager;
         private readonly ApplicationSettings _appSettings;
         private readonly IAuth _authServices;
+        // private readonly RoleManager<IdentityResult> _roleManager;
+
         public UserController(
             UserManager<User> userManager,
             IOptions<ApplicationSettings> appSettings,
@@ -65,6 +67,17 @@ namespace PFE.WebAPI.Controllers
             }
             else return BadRequest(new { message = "Username or password is incorrect !" });
         }
-      
+
+        [HttpPut("{id}")]
+        public async Task<Object> Update(string id, User model) => await _authServices.Update(id, model);
+
+        [HttpDelete("{id}")]
+        public async Task<Object> Delete(string id) => await _authServices.Delete(id);
+
+
+
+
+
+
     }
 }

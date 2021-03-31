@@ -12,7 +12,7 @@ namespace Domain.Model
         public string LastName { get; set; }
         public override string UserName { get; set;  }
 
-        //public string PassWord { get; set; }
+       // public string Password { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress]

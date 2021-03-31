@@ -11,5 +11,7 @@ namespace Service.Interfaces
     {
         Task<string> Login(LoginModel model);
         Task<object> Register(RegisterModel userModel);
+        Task<Object> Update(string id, User model);
+        Task<Object> Delete(string id);
     }
 }

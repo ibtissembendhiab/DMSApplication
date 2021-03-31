@@ -25,7 +25,7 @@ namespace DMSWebApplication.Controllers
 
         [HttpPost("addFolder")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [AllowAnonymous]
+        [AllowAnonymous] //AddFolder(Folder model)
         public IActionResult AddFolder([FromBody] JObject folderData)
         {
             var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
