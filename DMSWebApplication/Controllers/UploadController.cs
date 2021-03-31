@@ -87,6 +87,7 @@ namespace DMSWebApplication.Controllers
             }
         }
 
+
         /*[Route("api")]
          [ApiController]
          public class UploadController : ControllerBase
@@ -126,7 +127,7 @@ namespace DMSWebApplication.Controllers
 
 
 
-     
+
 
     }
 }

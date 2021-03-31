@@ -15,6 +15,8 @@ namespace Domain.Model
         public User FolderOwner { get; set; }
         public int ElementNumber { get; set; }
         public DateTime DateOfCreate { get; set; }
+       // public List<File> Files { get; set; }
 
     }
+
 }

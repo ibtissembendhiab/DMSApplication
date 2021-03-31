@@ -7,9 +7,11 @@ namespace Domain.Model
 {
     public class RegisterModel
     {
+       
+
         [Required]
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+       //  public string FirstName { get; set; }
+         //public string LastName { get; set; }
         public string Username { get; set; }
 
         public string Email { get; set; }
@@ -18,9 +20,11 @@ namespace Domain.Model
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-         // [Required]
+        // [Required]
         //[DataType(DataType.Password)]
         //[Compare("Password")]
         //public string ConfirmPassword { get; set; }
+        public string UserRole { get; set; }
+
     }
 }

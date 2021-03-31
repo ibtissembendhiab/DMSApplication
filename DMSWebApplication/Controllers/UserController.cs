@@ -26,19 +26,16 @@ namespace PFE.WebAPI.Controllers
     {
 
         private UserManager<User> _userManager;
-        //private SignInManager<FullNameDbColumn> _signInManager;
         private readonly ApplicationSettings _appSettings;
         private readonly IAuth _authServices;
         public UserController(
             UserManager<User> userManager,
-           // SignInManager<User> signInManager,
             IOptions<ApplicationSettings> appSettings,
             IAuth authServices
 
                 )
         {
             _userManager = userManager;
-            //_signInManager = signInManager;
             _appSettings = appSettings.Value;
             _authServices = authServices;
 

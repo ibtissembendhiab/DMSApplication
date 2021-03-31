@@ -1,4 +1,5 @@
 ﻿using Domain.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,5 +20,30 @@ namespace DMSWebApplication.Controllers
         {
             this._context = _context;
         }
+
+        [HttpGet("searchfiles")]
+        [Authorize]
+        [AllowAnonymous]
+        public IActionResult searchfiles()
+        {
+            var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
+            var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
+
+            var listfile = _context.File.Where(f => f.FileOwner == user).ToList();
+
+            return Ok(listfile);
+        }
+
+        [HttpPost("deletefile")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteFile(int FileId)
+        {
+            var file = await _context.File.FindAsync(FileId);
+
+            _context.File.Remove(file);
+            await _context.SaveChangesAsync();
+            return Ok("File Deleted successfully");
+        }
+
     }
 }
