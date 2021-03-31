@@ -16,7 +16,12 @@ namespace Repository.Common
 
         public void Delete(T entity)
         {
-           
+            throw new NotImplementedException();
+        }
+
+        public T Get(string id)
+        {
+            throw new NotImplementedException();
         }
 
         public List<T> GetAll()

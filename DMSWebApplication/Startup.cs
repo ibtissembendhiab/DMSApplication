@@ -27,6 +27,10 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Repository.Interfaces;
+using Repository.Repositories;
+using File = Domain.Model.File;
+using Repository.Common;
 
 namespace DMSWebApplication
 {
@@ -48,6 +52,11 @@ namespace DMSWebApplication
 
             services.AddIdentityCore<User>().AddEntityFrameworkStores<Context>();
 
+            services.AddTransient<IRepFile<File>, FileRepository>();
+           // services.AddTransient<IRepository<User>, RepositoryUser>();
+
+
+
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
@@ -59,7 +68,17 @@ namespace DMSWebApplication
             services.AddDbContext<Context>(item => item.UseSqlServer(
             Configuration.GetConnectionString("IdentityConnection"),
             b => b.MigrationsAssembly("DMSWebApplication")));
+
             services.AddScoped<IAuth, ServiceAuthen>();
+
+           /* //Roleee
+            services.AddIdentity<User, IdentityRole>(cfg =>
+            {
+            }).AddEntityFrameworkStores<Context>();
+
+            services.AddDefaultIdentity<User>()
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<Context>(); */
 
             services.Configure<IdentityOptions>(options =>
             {
