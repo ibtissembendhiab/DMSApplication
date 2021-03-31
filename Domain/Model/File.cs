@@ -17,12 +17,11 @@ namespace Domain.Model
         public int FileVersion { get; set; }
         public DateTime UploadDate { get; set; }
         public User FileOwner { get; set; }
+
         public Folder FileFolder { get; set; } 
         public statut FileStatut { get; set; }
 
-        public File()
-        {
-        }
+        
   
     }
     public enum statut

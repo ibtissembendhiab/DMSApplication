@@ -9,6 +9,6 @@ namespace Service.Interfaces
 {
    public interface IFile
     {
-       /// Task<string> Upload([FromForm] int idfolder);
+       Task<string> Upload([FromForm] int idfolder);
     }
 }

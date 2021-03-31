@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 
 namespace Service.Implementation
 {
-    public class ServiceFile 
+   /* public class ServiceFile 
     {
-        /*private readonly IRepFile<File> _file ;
+        private readonly IRepFile<File> _file ;
         public ServiceFile(IRepFile<File> file)
         {
             _file = file;
         }
-        //GET All Perso Details   
+
         public ICollection<File> GetAllFiles()
         {
             try
@@ -32,9 +32,9 @@ namespace Service.Implementation
             {
                 throw;
             }
-        }
-        //Delete Person   
-        public bool DeletePerson(int FileId)
+        } 
+        //Delete 
+        public bool Delete(int FileId)
         {
 
             try
@@ -52,5 +52,5 @@ namespace Service.Implementation
             }
 
         }*/
-    }
+    
 }

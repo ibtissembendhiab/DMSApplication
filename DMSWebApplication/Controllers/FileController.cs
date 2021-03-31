@@ -37,7 +37,7 @@ namespace DMSWebApplication.Controllers
             {
                 var files = _context.Files.ToList();
                 return Ok(new { data = new { files } });
-                      //_file.GetAll().ToList();
+                      _file.GetAll().ToList();
             }
             catch (Exception ex)
             {
@@ -65,7 +65,6 @@ namespace DMSWebApplication.Controllers
         [HttpDelete("DeleteFile")]
         public bool DeleteFile(int FileId)
         {
-
             try
             {
                 var DataList = _file.GetAll().Where(x => x.FileId == FileId).ToList();

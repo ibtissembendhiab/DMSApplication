@@ -72,15 +72,9 @@ namespace Service.Implementation
             var cuser = new User
             {
                // FirstName = model.FirstName,
-<<<<<<< HEAD
-               // LastName  = model.LastName,
+                //LastName  = model.LastName,
                 UserName  = model.Username,
                 Email     = model.Email,
-=======
-               // LastName = model.LastName,
-                UserName = model.Username,
-                Email = model.Email,
->>>>>>> 793b3482870c69992dc705c43f31dee41b0d9643
             };
 
             try

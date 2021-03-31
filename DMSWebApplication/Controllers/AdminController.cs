@@ -9,12 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repository.Common;
 using System;
-using System.Collections.Generic;
-<<<<<<< HEAD
 using System.IO;
-=======
 using System.IdentityModel.Tokens.Jwt;
->>>>>>> 793b3482870c69992dc705c43f31dee41b0d9643
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -36,19 +32,15 @@ namespace DMSWebApplication.Controllers
             _userManager = userManager;
             _context = context;
         }
-<<<<<<< HEAD
 
         
 
 
 
     }
-=======
+
 
 
        
     }
 
-
->>>>>>> 793b3482870c69992dc705c43f31dee41b0d9643
-}

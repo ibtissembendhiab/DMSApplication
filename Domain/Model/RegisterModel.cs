@@ -29,8 +29,8 @@ namespace Domain.Model
         public RegisterModel(string _firstName, string _lastName, string _userName, string _email, string _password, string _userRole)
 
         {
-            FirstName = _firstName;
-            LastName = _lastName;
+            //FirstName = _firstName;
+            //LastName = _lastName;
             Username = _userName;
             Email = _email;
             Password = _password;

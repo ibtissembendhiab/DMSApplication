@@ -35,7 +35,8 @@ namespace DMSWebApplication.Controllers
         public IActionResult Upload(IFormFile file)
         {
             {
-                var f = new File();
+                
+                File f = new  File();
                 var filePath = Path.Combine(@"ressources", file.FileName);
 
                 // var FID = Request.Form.Files[1].ContentDisposition;
@@ -51,11 +52,12 @@ namespace DMSWebApplication.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-
+                     
                     //f.FileExtension = Path.GetExtension(serverpath);
                     f.FileName = fileName;
                     f.FilePath = serverpath;
-                    // f.FileDiscription = "file uploaded succfully ";
+
+                    //f.FileDiscription = "file uploaded succfully ";
                     f.FileSize = file.Length;
                     f.FileVersion = 1;
 
@@ -67,12 +69,18 @@ namespace DMSWebApplication.Controllers
                     //folder.FolderSize = folder.FolderSize + file.Length;
                     //f.FileFolder = folder;
                    // f.FileOwner = user;
+
+
                     var datenow = DateTime.Now.Date;
                     var date = datenow.ToString("dd/MM/yyyy");
                     //  f.CreatedDate = date;
                     f.UploadDate = DateTime.Now.Date;
+                    f.FileOwner = null;
+                    f.FileFolder = null;
+                   // f.FileStatut = "archived";
+
                     _context.Add(f);
-                  //  _context.Update(folder);
+                   
                     _context.SaveChanges();
 
 
@@ -88,7 +96,7 @@ namespace DMSWebApplication.Controllers
         }
 
 
-        /*[Route("api")]
+       /*  [Route("api")]
          [ApiController]
          public class UploadController : ControllerBase
          {
@@ -119,8 +127,8 @@ namespace DMSWebApplication.Controllers
                      }
                  }
                  return Ok();
-             }*/
-
+             }
+       */
 
 
 
