@@ -73,13 +73,13 @@ namespace DMSWebApplication.Controllers
 
                     var datenow = DateTime.Now.Date;
                     var date = datenow.ToString("dd/MM/yyyy");
-                    //  f.CreatedDate = date;
+                  
                     f.UploadDate = DateTime.Now.Date;
                     f.FileOwner = null;
                     f.FileFolder = null;
-                   f.FileStatut= "done";
+                    f.FileStatut= "";
 
-                    _context.Add<File>(f);
+                    _context.Add(f);
                    
                     _context.SaveChanges();
 
@@ -94,47 +94,6 @@ namespace DMSWebApplication.Controllers
 
             }
         }
-
-
-       /*  [Route("api")]
-         [ApiController]
-         public class UploadController : ControllerBase
-         {
-            private IHostingEnvironment _hostingEnvironment;
-
-             public UploadController(IHostingEnvironment environment)
-             {
-                 _hostingEnvironment = environment;
-             }
-
-             [HttpPost]
-             [Route("upload")]
-             public async Task<IActionResult> Upload(IFormFile file)
-             {
-                 var path = Path.GetFullPath(file.FileName); 
-
-                 //var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-                 //if (!Directory.Exists(uploads))
-                 //{
-                 //    Directory.CreateDirectory(uploads);
-                 //}
-                 if (file.Length > 0)
-                 {
-                     var filePath = Path.Combine(@"ressources", file.FileName);
-                     using (var fileStream = new FileStream(filePath, FileMode.Create))
-                     {
-                         await file.CopyToAsync(fileStream);
-                     }
-                 }
-                 return Ok();
-             }
-       */
-
-
-
-
-
-
 
 
     }

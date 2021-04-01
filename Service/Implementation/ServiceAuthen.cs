@@ -139,5 +139,9 @@ namespace Service.Implementation
             }
         }
 
+        public Task<object> GetUserProfile()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace Service.Interfaces
         Task<object> Register(RegisterModel userModel);
         Task<Object> Update(string id, UserUpdate model);
         Task<Object> Delete(string id);
+        Task<object> GetUserProfile();
     }
 }

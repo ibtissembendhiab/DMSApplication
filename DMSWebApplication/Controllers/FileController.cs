@@ -28,25 +28,24 @@ namespace DMSWebApplication.Controllers
             this._file = file;
         }
 
-        //GET All Person  
+        //GET filles 
         [HttpGet("GetAllFiles")]
         public IActionResult  GetAllFiles()
-       // public Object GetAllFiles()
         {
             try
             {
                 var files = _context.Files.ToList();
                 return Ok(new { data = new { files } });
-                      _file.GetAll().ToList();
+                     
             }
             catch (Exception ex)
             {
-                throw;
+                throw ;
             }
         }
 
 
-        /*  [HttpGet("searchfiles")]
+          /*[HttpGet("searchfiles")]
           [Authorize]
           [AllowAnonymous]
           public IActionResult searchfiles()
@@ -54,10 +53,11 @@ namespace DMSWebApplication.Controllers
               var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
               var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
 
-              var listfile = _context.File.Where(f => f.FileOwner == user).ToList();
+              var listfile = _context.file.Where(f => f.FileOwner == user).ToList();
 
               return Ok(listfile);
-          }*/
+          } */
+
 
         //Delete File
         //[HttpDelete("{id}")]
@@ -69,11 +69,6 @@ namespace DMSWebApplication.Controllers
             {
                 File file = _file.GetById(FileId);
                 _file.Delete(file);
-                //var DataList = _file.GetAll().Where(x => x.FileId == FileId).ToList();
-                //foreach (var item in DataList)
-                //{
-                //    _file.Delete(item);
-                //}
                 return true;
             }
             catch (Exception)
@@ -83,17 +78,6 @@ namespace DMSWebApplication.Controllers
 
         }
 
-        /*  [HttpPost("deletefile")]
-           [AllowAnonymous]
-
-           public async Task<IActionResult> DeleteFile(int FileId)
-            {
-                var file = await _context.File.FindAsync(FileId);
-
-                _context.File.Remove(file);
-                await _context.SaveChangesAsync();
-                return Ok("File Deleted successfully");
-            }*/
 
     }
 }

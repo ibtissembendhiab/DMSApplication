@@ -9,6 +9,5 @@ namespace Service.Implementation
 {
     public class ServiceFolder : IFolder
     {
-        //private readonly ApplicationSettings;
     }
 }

@@ -25,7 +25,8 @@ namespace DMSWebApplication.Controllers
 
         [HttpPost("addFolder")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [AllowAnonymous] //AddFolder(Folder model)
+        [AllowAnonymous] 
+        //AddFolder(Folder model)
         public IActionResult AddFolder([FromBody] JObject folderData)
         {
             var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
@@ -45,11 +46,10 @@ namespace DMSWebApplication.Controllers
                 FolderOwner = user,
                 ElementNumber = 0,
                 DateOfCreate = DateTime.Now.Date
-
-            };
+ };
             _context.Add(newfolder);
             _context.SaveChanges();
-            return Ok(newfolder);
+              return Ok(newfolder);
         }
 
     }

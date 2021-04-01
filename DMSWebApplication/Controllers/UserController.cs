@@ -1,4 +1,5 @@
-﻿using Domain.Model;
+﻿using Domain.Data;
+using Domain.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,31 +25,23 @@ namespace PFE.WebAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-
+ 
         private UserManager<User> _userManager;
         private readonly ApplicationSettings _appSettings;
         private readonly IAuth _authServices;
+        private readonly Context _context;
         // private readonly RoleManager<IdentityResult> _roleManager;
 
         public UserController(
             UserManager<User> userManager,
             IOptions<ApplicationSettings> appSettings,
-            IAuth authServices
-
-                )
+            IAuth authServices  )
         {
             _userManager = userManager;
             _appSettings = appSettings.Value;
             _authServices = authServices;
 
         }
-
-
-
-        //[HttpGet]
-        //[Authorize]
-        ////GET : /api/UserProfile
-        //public async Task<Object> GetUserProfile() => await _authServices.GetUserProfile();
 
         [HttpPost]
         [Route("Register")]
@@ -75,24 +68,39 @@ namespace PFE.WebAPI.Controllers
         public async Task<Object> Delete(string id) => await _authServices.Delete(id);
 
 
+        /* [HttpGet]
+         [Authorize]
+         [Route("GetUserProfile")]
+         //GET : /api/UserProfile
+         public async Task<Object> GetUserProfile()
+         {
+             string userId = User.Claims.First(c => c.Type == "UserId").Value;
+             var user = await _userManager.FindByIdAsync(userId);
+             return new
+             {
+                 user.Id, 
+                 user.Email,
+                 user.UserName,
+             };
+         }*/
+
+
         [HttpGet]
         [Authorize]
         [Route("GetUserProfile")]
-        //GET : /api/UserProfile
-        public async Task<Object> GetUserProfile()
+        public IActionResult GetAllUsers()
         {
-            string userId = User.Claims.First(c => c.Type == "UserId").Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            return new
+            try
             {
-                user.Id, 
-                user.Email,
-                user.UserName,
+                var Users = _context.Users.ToList();
+                return Ok(new { data = new { Users } });
 
-            };
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
-
-
 
 
 

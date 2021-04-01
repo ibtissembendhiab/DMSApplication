@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Model
 {
+    [Table("Fichier")]
     public class File
     {
         [Key]
@@ -18,13 +20,11 @@ namespace Domain.Model
         public DateTime UploadDate { get; set; }
         public User FileOwner { get; set; }
 
-        public Folder FileFolder { get; set; } 
-        public string FileStatut { get; set; }
+        public Folder FileFolder { get; set; }
+        public string  FileStatut { get; set; }
 
-        
-  
-    }
-   /* public enum statut
+    } 
+ /*public enum Statut
     {
         notarchived,
         archived,

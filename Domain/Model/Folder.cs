@@ -19,7 +19,7 @@ namespace Domain.Model
 
         public DateTime DateOfCreate { get; set; }
 
-       // public List<File> Files { get; set; }
+        //public List<File> Files { get; set; }
 
         public virtual ICollection<Folder> ChildFolders { get; set; }
 
