@@ -69,10 +69,28 @@ namespace PFE.WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<Object> Update(string id, User model) => await _authServices.Update(id, model);
+        public async Task<Object> Update(string id, UserUpdate model) => await _authServices.Update(id, model);
 
         [HttpDelete("{id}")]
         public async Task<Object> Delete(string id) => await _authServices.Delete(id);
+
+
+        [HttpGet]
+        [Authorize]
+        [Route("GetUserProfile")]
+        //GET : /api/UserProfile
+        public async Task<Object> GetUserProfile()
+        {
+            string userId = User.Claims.First(c => c.Type == "UserId").Value;
+            var user = await _userManager.FindByIdAsync(userId);
+            return new
+            {
+                user.Id, 
+                user.Email,
+                user.UserName,
+
+            };
+        }
 
 
 

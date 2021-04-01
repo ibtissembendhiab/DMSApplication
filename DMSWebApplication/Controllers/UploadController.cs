@@ -77,9 +77,9 @@ namespace DMSWebApplication.Controllers
                     f.UploadDate = DateTime.Now.Date;
                     f.FileOwner = null;
                     f.FileFolder = null;
-                   // f.FileStatut = "archived";
+                   f.FileStatut= "done";
 
-                    _context.Add(f);
+                    _context.Add<File>(f);
                    
                     _context.SaveChanges();
 

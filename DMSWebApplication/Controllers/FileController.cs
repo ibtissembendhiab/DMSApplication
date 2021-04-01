@@ -62,21 +62,23 @@ namespace DMSWebApplication.Controllers
         //Delete File
         //[HttpDelete("{id}")]
 
-        [HttpDelete("DeleteFile")]
+        [HttpDelete("DeleteFile{FileId}")]
         public bool DeleteFile(int FileId)
         {
             try
             {
-                var DataList = _file.GetAll().Where(x => x.FileId == FileId).ToList();
-                foreach (var item in DataList)
-                {
-                    _file.Delete(item);
-                }
+                File file = _file.GetById(FileId);
+                _file.Delete(file);
+                //var DataList = _file.GetAll().Where(x => x.FileId == FileId).ToList();
+                //foreach (var item in DataList)
+                //{
+                //    _file.Delete(item);
+                //}
                 return true;
             }
             catch (Exception)
             {
-                return true;
+                throw ;
             }
 
         }

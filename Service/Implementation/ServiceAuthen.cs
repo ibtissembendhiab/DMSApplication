@@ -71,8 +71,8 @@ namespace Service.Implementation
         {
             var cuser = new User
             {
-               // FirstName = model.FirstName,
-                //LastName  = model.LastName,
+                FirstName = model.FirstName,
+                LastName  = model.LastName,
                 UserName  = model.Username,
                 Email     = model.Email,
             };
@@ -88,27 +88,27 @@ namespace Service.Implementation
                 throw;
             }
         }
-        public async Task<Object> Update(string id, User model)
+        public async Task<Object> Update(string id, UserUpdate model)
         {
             User user = await _userManager.FindByIdAsync(id);
-           // var pwCheck = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
+            var pwCheck = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
 
             if (user != null)
             {
+                if (model.FirstName != "" && model.FirstName != user.FirstName) { user.FirstName = model.FirstName; }
 
-                //if (model.FullName != null) { user.FullName = model.FullName; }
+                if (model.LastName != "" && model.LastName != user.LastName) { user.LastName = model.LastName; }
 
                 if (model.UserName != "" && model.UserName != user.UserName) { user.UserName = model.UserName; }
 
                 if (model.Email != "" && model.Email != user.Email) { user.Email = model.Email; }
 
 
-               // if (model.Password != "")
-               // {
-               //   if (pwCheck != PasswordVerificationResult.Failed)
-               //     user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
-               // }
-
+                if (model.Password != "")
+               {
+                  if (pwCheck != PasswordVerificationResult.Failed)
+                    user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
+                }
 
                 IdentityResult result = await _userManager.UpdateAsync(user);
                 return result;
