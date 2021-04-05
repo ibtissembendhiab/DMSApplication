@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -30,24 +31,33 @@ namespace PFE.WebAPI.Controllers
         private readonly ApplicationSettings _appSettings;
         private readonly IAuth _authServices;
         private readonly Context _context;
-        // private readonly RoleManager<IdentityResult> _roleManager;
+       // private readonly SignInManager<User> signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
 
         public UserController(
             UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager,
             IOptions<ApplicationSettings> appSettings,
-            IAuth authServices  )
+            Context context,
+            IAuth authServices)
+
         {
             _userManager = userManager;
+            _roleManager = roleManager; 
             _appSettings = appSettings.Value;
             _authServices = authServices;
-
+            _context = context;
         }
-
+     
+       // [Authorize(Roles = "Admin")]
+       // [ValidateAntiForgeryToken]
         [HttpPost]
         [Route("Register")]
         //POST : /api/User/Register
-        public async Task<Object> Register(RegisterModel model) => await _authServices.Register(model);
+        public async Task<Object> Register(Register model) => await _authServices.Register(model);
 
+       // [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [Route("Login")]
         //POST :/api/User/Login
@@ -68,25 +78,26 @@ namespace PFE.WebAPI.Controllers
         public async Task<Object> Delete(string id) => await _authServices.Delete(id);
 
 
-        /* [HttpGet]
-         [Authorize]
-         [Route("GetUserProfile")]
-         //GET : /api/UserProfile
-         public async Task<Object> GetUserProfile()
-         {
-             string userId = User.Claims.First(c => c.Type == "UserId").Value;
-             var user = await _userManager.FindByIdAsync(userId);
-             return new
-             {
-                 user.Id, 
-                 user.Email,
-                 user.UserName,
-             };
-         }*/
+          [HttpGet]
+         // [Authorize]
+          [Route("GetUserProfile")]
+          //GET : /api/UserProfile
+          public async Task<Object> GetUserProfile()
+          {
+              string userId = User.Claims.First(c => c.Type == "UserId").Value;
+              var user = await _userManager.FindByIdAsync(userId);
+              return new
+              {
+                  user.FirstName,
+                  user.LastName,
+                  user.UserName,
+                  user.Email 
+              };
+          }
 
 
-        [HttpGet]
-        [Authorize]
+       /* [HttpGet]
+        [Authorize]  //error 401
         [Route("GetUserProfile")]
         public IActionResult GetAllUsers()
         {
@@ -100,9 +111,7 @@ namespace PFE.WebAPI.Controllers
             {
                 throw;
             }
-        }
-
-
+        }*/
 
 
     }

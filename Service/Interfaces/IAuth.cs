@@ -9,8 +9,8 @@ namespace Service.Interfaces
 {
     public interface IAuth
     {
-        Task<string> Login(LoginModel model);
-        Task<object> Register(RegisterModel userModel);
+        Task<object> Login(LoginModel model);
+        Task<object> Register(Register userModel);
         Task<Object> Update(string id, UserUpdate model);
         Task<Object> Delete(string id);
         Task<object> GetUserProfile();

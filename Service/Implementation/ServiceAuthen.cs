@@ -1,5 +1,6 @@
 ﻿using Domain.Model;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Service.Interfaces;
@@ -15,60 +16,89 @@ namespace Service.Implementation
 {
     public class ServiceAuthen : IAuth
     {
-        private IPasswordHasher<User> _passwordHasher; 
+        private IPasswordHasher<User> _passwordHasher;
         private UserManager<User> _userManager;
-       // private SignInManager<User> _signInManager;
+        private SignInManager<User> _signInManager;
         private readonly ApplicationSettings _appSettings;
-       // private readonly RoleManager<IdentityResult> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public ServiceAuthen(
             UserManager<User> userManager,
             IPasswordHasher<User> passwordHasher,
-
-        //  SignInManager<User> signInManager,
+            RoleManager<IdentityRole> roleManager,
+         SignInManager<User> signInManager,
         IOptions<ApplicationSettings> appSettings
                 )
 
         {
             _passwordHasher = passwordHasher;
             _userManager = userManager;
-           // _signInManager = signInManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
             _appSettings = appSettings.Value;
-            
+
         }
-        public async Task<string> Login(LoginModel model)
+        public async Task<object> Login(LoginModel model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
-
             //var role = await _userManager.GetRolesAsync(user);
             //var v = role[0];
-            //var signingKey = Convert.FromBase64String(_appSettings.JWT_Secret);
+            // var signingKey = Convert.FromBase64String(_appSettings.JWT_Secret);
+            //var result = await _userManager.CheckPasswordAsync(user, model.Password);
 
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            if (user == null)
             {
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                           
-                    Subject = new ClaimsIdentity(new Claim[]
-                        {
-                            new Claim("UserId", user.Id.ToString()),
-                          //  new Claim("Role", v)
+                return null;
 
-                        }),
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
-                };
-
-                 var tokenHandler = new JwtSecurityTokenHandler();
-                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                 var token = tokenHandler.WriteToken(securityToken);
-                return token;
             }
-            else return null;
+            // var result = await _userManager.CheckPasswordAsync(user, model.Password);
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+            if (!result.Succeeded)
+            {
+                return "Password Incorrect";
+                //return "Password not correct";
+            }
+
+            return (new { 
+                result = result,
+                token = JwtTokenGenerator(user)
+           });      
         }
 
-        public async Task<object> Register(RegisterModel model)
+        private async Task<string> JwtTokenGenerator(User user)
         {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName)
+            };
+            var roles =await _userManager.GetRolesAsync(user);
+
+            foreach(var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+
+            }
+
+            var securitykey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret));
+            var credentials = new SigningCredentials(securitykey, SecurityAlgorithms.HmacSha256Signature);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddDays(2),
+                SigningCredentials = credentials
+
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+        }
+
+        public async Task<object> Register(Register model)
+        {
+           // model.Role = "Admin";
             var cuser = new User
             {
                 FirstName = model.FirstName,
@@ -76,17 +106,24 @@ namespace Service.Implementation
                 UserName  = model.Username,
                 Email     = model.Email,
             };
+            var result = await _userManager.CreateAsync(cuser, model.Password);
 
-            try
+            if (!result.Succeeded)
             {
-               // var r = await _userManager.AddToRoleAsync(cuser, "Employee");
-                var result = await _userManager.CreateAsync(cuser, model.Password);
-                return result;
+                return "failed";
             }
-            catch (Exception)
-            {
-                throw;
-            }
+           // try
+            // {
+                 //var result = await _userManager.CreateAsync(cuser, model.Password);
+                // return result;
+            // }
+            // catch (Exception)
+            // {
+               //  throw;
+            // }
+            var dbUser =await _userManager.FindByNameAsync(cuser.UserName);
+           await _userManager.AddToRoleAsync(dbUser, model.Role);
+            return result;
         }
         public async Task<Object> Update(string id, UserUpdate model)
         {
@@ -102,12 +139,13 @@ namespace Service.Implementation
                 if (model.UserName != "" && model.UserName != user.UserName) { user.UserName = model.UserName; }
 
                 if (model.Email != "" && model.Email != user.Email) { user.Email = model.Email; }
+                
 
 
                 if (model.Password != "")
                {
-                  if (pwCheck != PasswordVerificationResult.Failed)
-                    user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
+                    if (pwCheck != PasswordVerificationResult.Failed)
+                    { user.PasswordHash = _passwordHasher.HashPassword(user, model.Password); }
                 }
 
                 IdentityResult result = await _userManager.UpdateAsync(user);
@@ -143,5 +181,6 @@ namespace Service.Implementation
         {
             throw new NotImplementedException();
         }
+
     }
 }

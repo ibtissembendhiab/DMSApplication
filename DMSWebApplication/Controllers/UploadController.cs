@@ -15,6 +15,7 @@ using Domain.Model;
 using File = Domain.Model.File;
 using Service.Implementation;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace DMSWebApplication.Controllers
 {
@@ -35,52 +36,49 @@ namespace DMSWebApplication.Controllers
         public IActionResult Upload(IFormFile file)
         {
             {
-                
-                File f = new  File();
+
+                File f = new File();
                 var filePath = Path.Combine(@"ressources", file.FileName);
 
-                // var FID = Request.Form.Files[1].ContentDisposition;
-                // var folderName = Path.Combine("Resources", "Images");
-               
                 if (file.Length > 0)
                 {
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                  //  var fullPath = Path.Combine(pathToSave, fileName);
-                    var dbPath = Path.Combine( fileName);
-                    var serverpath = Path.Combine( fileName);
+                    //  var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(fileName);
+                    var serverpath = Path.Combine(fileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
-                     
+
                     //f.FileExtension = Path.GetExtension(serverpath);
                     f.FileName = fileName;
                     f.FilePath = serverpath;
 
-                    //f.FileDiscription = "file uploaded succfully ";
+                    //f.FileDiscription = "file uploaded successfully ";
                     f.FileSize = file.Length;
                     f.FileVersion = 1;
 
-                   // var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
+                   // var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
                    // var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
 
-                   // var folder = _context.Folder.Where(folderid => folderid.FolderId == idfolder).FirstOrDefault();
+                    // var folder = _context.Folder.Where(folderid => folderid.FolderId == idfolder).FirstOrDefault();
                     //folder.ElementNumber = folder.ElementNumber += 1;
                     //folder.FolderSize = folder.FolderSize + file.Length;
                     //f.FileFolder = folder;
-                   // f.FileOwner = user;
+                    // f.FileOwner = user;
 
 
                     var datenow = DateTime.Now.Date;
                     var date = datenow.ToString("dd/MM/yyyy");
-                  
+
                     f.UploadDate = DateTime.Now.Date;
                     f.FileOwner = null;
                     f.FileFolder = null;
-                    f.FileStatut= "";
+                    f.FileStatut = "";
 
                     _context.Add(f);
-                   
+
                     _context.SaveChanges();
 
 
@@ -95,9 +93,38 @@ namespace DMSWebApplication.Controllers
             }
         }
 
+        [HttpGet("download")]
+        public async Task<IActionResult> Download([FromQuery] string FileName)
+        {
+           // var download = Path.Combine("resources");
+
+            var filePath = Path.Combine(@"ressources", FileName);
+            if (!System.IO.File.Exists(filePath))
+                return NotFound();
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(filePath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+
+            return File(memory, GetContentType(filePath), FileName);
+        }
+            private string GetContentType(string path)
+            {
+                var provider = new FileExtensionContentTypeProvider();
+                string contentType;
+                if (!provider.TryGetContentType(path, out contentType))
+                {
+                    contentType = "application/octet-stream";
+                }
+                return contentType;
+            }
 
     }
 }
+
 
 
 

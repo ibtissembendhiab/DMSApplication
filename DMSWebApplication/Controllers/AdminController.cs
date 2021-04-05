@@ -15,9 +15,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using Group = Domain.Model.Group;
 
 namespace DMSWebApplication.Controllers
 {
+   // [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -33,7 +36,7 @@ namespace DMSWebApplication.Controllers
             _context = context;
         }
 
-        
+       
 
 
 
@@ -42,5 +45,5 @@ namespace DMSWebApplication.Controllers
 
 
        
-    }
+}
 
