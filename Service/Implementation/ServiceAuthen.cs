@@ -1,4 +1,5 @@
-﻿using Domain.Model;
+﻿using Domain.Data;
+using Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -21,13 +22,15 @@ namespace Service.Implementation
         private SignInManager<User> _signInManager;
         private readonly ApplicationSettings _appSettings;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private Context _context;
 
         public ServiceAuthen(
             UserManager<User> userManager,
             IPasswordHasher<User> passwordHasher,
             RoleManager<IdentityRole> roleManager,
          SignInManager<User> signInManager,
-        IOptions<ApplicationSettings> appSettings
+        IOptions<ApplicationSettings> appSettings,
+        Context context
                 )
 
         {
@@ -36,6 +39,7 @@ namespace Service.Implementation
             _roleManager = roleManager;
             _signInManager = signInManager;
             _appSettings = appSettings.Value;
+            _context = context;
 
         }
         public async Task<object> Login(LoginModel model)
@@ -112,19 +116,30 @@ namespace Service.Implementation
             {
                 return "failed";
             }
-           // try
-            // {
-                 //var result = await _userManager.CreateAsync(cuser, model.Password);
-                // return result;
-            // }
-            // catch (Exception)
-            // {
-               //  throw;
-            // }
-            var dbUser =await _userManager.FindByNameAsync(cuser.UserName);
-           await _userManager.AddToRoleAsync(dbUser, model.Role);
+
+            var dbUser = await _userManager.FindByNameAsync(cuser.UserName);
+            await _userManager.AddToRoleAsync(dbUser, model.Role);
+
+          //  var datenow = DateTime.Now.Date;
+           // var date = datenow.ToString("dd/MM/yyyy");
+
+
+            if (!_context.Folder.Any())
+            {
+                Folder folderMySpace = new Folder()
+                {
+                    FolderName = "My space",
+                    FolderPath = "",
+                    DateOfCreate = DateTime.Now.Date,
+                    FolderOwner= cuser
+                };
+
+                _context.Folder.Add(folderMySpace);
+                _context.SaveChanges();
+            }
             return result;
         }
+
         public async Task<Object> Update(string id, UserUpdate model)
         {
             User user = await _userManager.FindByIdAsync(id);
@@ -142,7 +157,7 @@ namespace Service.Implementation
                 
 
 
-                if (model.Password != "")
+                if (model.Password != "" && model.Password!= user.PasswordHash)
                {
                     if (pwCheck != PasswordVerificationResult.Failed)
                     { user.PasswordHash = _passwordHasher.HashPassword(user, model.Password); }

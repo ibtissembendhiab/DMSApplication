@@ -59,14 +59,14 @@ namespace DMSWebApplication.Controllers
                     f.FileSize = file.Length;
                     f.FileVersion = 1;
 
-                   // var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
-                   // var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
+                  // var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
+                  // var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
 
                     // var folder = _context.Folder.Where(folderid => folderid.FolderId == idfolder).FirstOrDefault();
                     //folder.ElementNumber = folder.ElementNumber += 1;
                     //folder.FolderSize = folder.FolderSize + file.Length;
                     //f.FileFolder = folder;
-                    // f.FileOwner = user;
+                   //  f.FileOwner = user;
 
 
                     var datenow = DateTime.Now.Date;
@@ -96,8 +96,6 @@ namespace DMSWebApplication.Controllers
         [HttpGet("download")]
         public async Task<IActionResult> Download([FromQuery] string FileName)
         {
-           // var download = Path.Combine("resources");
-
             var filePath = Path.Combine(@"ressources", FileName);
             if (!System.IO.File.Exists(filePath))
                 return NotFound();
@@ -105,7 +103,7 @@ namespace DMSWebApplication.Controllers
             var memory = new MemoryStream();
             using (var stream = new FileStream(filePath, FileMode.Open))
             {
-                await stream.CopyToAsync(memory);
+                await stream.CopyToAsync(memory);  
             }
             memory.Position = 0;
 

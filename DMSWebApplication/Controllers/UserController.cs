@@ -96,23 +96,64 @@ namespace PFE.WebAPI.Controllers
           }
 
 
-       /* [HttpGet]
-        [Authorize]  //error 401
-        [Route("GetUserProfile")]
-        public IActionResult GetAllUsers()
+        /* [HttpGet]
+         [Authorize]  //error 401
+         [Route("GetUserProfile")]
+         public IActionResult GetAllUsers()
+         {
+             try
+             {
+                 var Users = _context.Users.ToList();
+                 return Ok(new { data = new { Users } });
+
+             }
+             catch (Exception ex)
+             {
+                 throw;
+             }
+         }*/
+        [HttpPost("addgroup")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
+        [AllowAnonymous]
+        //[FromBody]
+        public async Task<IActionResult> RegisterGroup([FromBody] Group group)
         {
-            try
-            {
-                var Users = _context.Users.ToList();
-                return Ok(new { data = new { Users } });
 
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }*/
+          //  var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
+           // var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
 
+            //group.GroupOwner = user;
+            group.CreatedDate = DateTime.Now.Date;
+           // group.GroupFolders.Add(groupspacefolder);
+
+            //_context.Folder.Add(spacefolder);
+            Folder parent = _context.Folder.Where(f => f.FolderId == 1).FirstOrDefault();
+
+            Folder Foldercontainer = new Folder()
+            {
+                FolderName = group.GroupName + "checkpoint",
+                FolderPath = group.GroupName + "/",
+               // FolderGroup = group,
+               // FolderOwner = user,
+                ParentFolder = parent,
+                DateOfCreate = DateTime.Now.Date
+            };
+
+
+            _context.Folder.Add(Foldercontainer);
+
+
+            if (ModelState.IsValid)
+            {
+                _context.Group.Add(group);
+                _context.SaveChanges();
+
+                return Ok("group was added ");
+            }
+
+            return Ok("adding group was failed");
+        }
 
     }
 }

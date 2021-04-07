@@ -1,0 +1,64 @@
+package projetintegration;
+import java.util.Arrays;
+public class film {
+    private String title ;
+    private String summary ;
+    private int years ;
+    private personne director ;
+    private personne [] actors ;
+   
+public String gettitle() {
+		return title;
+	}
+public void settitle(String title) {
+		this.title = title;
+	}    
+    
+ public String getsummary() {
+		return summary;
+	}
+public void setsummary (String summary) {
+		this.summary = summary;
+	}    
+
+ public int getyears() {
+		return years;
+	}
+public void setyears (int years) {
+		this.years = years;
+	} 
+
+ public personne getdirector() {
+		return director;
+	}
+public void setdirector (personne director) {
+		this.director = director;
+	}
+ 
+public personne[] getactors() {
+		return actors;
+	}
+	public void setactors(personne[] actors) {
+		this.actors = actors;
+	}
+        
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("***** Film Details *****\n");
+		sb.append("title="+gettitle()+"\n");
+		sb.append("summary="+getsummary()+"\n");
+		sb.append("years="+getyears()+"\n");
+		sb.append("director="+getdirector()+"\n");
+		sb.append("actors="+Arrays.toString(getactors())+"\n");
+		
+		sb.append("\n*****************************");
+		
+		return sb.toString();
+	}
+	public void setactors(personne personne, personne personne2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

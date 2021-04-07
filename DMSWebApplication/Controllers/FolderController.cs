@@ -26,27 +26,28 @@ namespace DMSWebApplication.Controllers
         [HttpPost("addFolder")]
        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [AllowAnonymous] 
-        //AddFolder(Folder model)
-        public IActionResult AddFolder([FromBody] JObject folderData)
+       // public IActionResult AddFolder([FromBody] JObject folderData)
+        public IActionResult AddFolder(Folder model)
         {
-           // var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
-           // var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
+          // var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
+          // var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
 
 
-            var folderName = folderData["folderName"].ToString();
-            var folderPath = folderData["folderPath"].ToString();
+           // var folderName = folderData["folderName"].ToString();
+           // var folderPath = folderData["folderPath"].ToString();
 
             var datenow = DateTime.Now.Date;
             var date = datenow.ToString("dd/MM/yyyy");
+
             Folder newfolder = new Folder()
             {
-                FolderName = folderName,
+                FolderName = model.FolderName,
                 FolderSize = 0,
-                FolderPath = folderPath,
+                //FolderPath = folderPath,
                // FolderOwner = user,
                 ElementNumber = 0,
                 DateOfCreate = DateTime.Now.Date
- };
+            };
             _context.Add(newfolder);
             _context.SaveChanges();
               return Ok(newfolder);
