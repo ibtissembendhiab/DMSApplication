@@ -60,7 +60,6 @@ namespace DMSWebApplication.Controllers
 
 
         //Delete File
-        //[HttpDelete("{id}")]
 
         [HttpDelete("DeleteFile{FileId}")]
         public bool DeleteFile(int FileId)

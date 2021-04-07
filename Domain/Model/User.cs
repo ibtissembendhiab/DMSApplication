@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Data;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -8,6 +10,7 @@ namespace Domain.Model
 {
     public class User : IdentityUser
     {
+        //public override string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public override string UserName { get; set;  }
@@ -20,10 +23,11 @@ namespace Domain.Model
 
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Folder> Folders { get; set; }
+
         public List<IdentityUserRole<string>> Roles { get; set; }
 
         public User() { }
 
-
+      
     }
 }

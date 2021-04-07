@@ -17,6 +17,7 @@ namespace Domain.Data
         }
         public DbSet<Folder> Folder { get; set; }
         public DbSet<File> Files { get; set; }
+        public DbSet<Group> Group { get; set; }
 
        // public DbSet<User> User { get; set; }
         //public object File { get; set; }
@@ -28,6 +29,8 @@ namespace Domain.Data
             modelBuilder.Entity<User>();
             modelBuilder.Entity<Folder>();
             modelBuilder.Entity<File>();
+            modelBuilder.Entity<Group>();
+            modelBuilder.Entity<GroupUser>().HasKey(gu => new { gu.GroupId, gu.Id });
 
 
 

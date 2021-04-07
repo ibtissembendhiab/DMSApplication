@@ -31,6 +31,8 @@ using Repository.Interfaces;
 using Repository.Repositories;
 using File = Domain.Model.File;
 using Repository.Common;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 
 namespace DMSWebApplication
 {
@@ -47,14 +49,24 @@ namespace DMSWebApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
+            {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequiredLength = 6;
+
+            });
+            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+            builder.AddEntityFrameworkStores<Context>();
+            builder.AddSignInManager<SignInManager<User>>();
+            builder.AddRoleManager<RoleManager<IdentityRole>>();
+
             //Inject AppSettings
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
-
-            services.AddIdentityCore<User>().AddEntityFrameworkStores<Context>();
-
+           // services.AddIdentityCore<User>().AddEntityFrameworkStores<Context>();
             services.AddTransient<IRepFile<File>, FileRepository>();
-           // services.AddTransient<IRepository<User>, RepositoryUser>();
-
 
 
             services.AddControllers();
@@ -64,40 +76,60 @@ namespace DMSWebApplication
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DMSWebApplication", Version = "v1" });
             });
 
-            
 
+
+           // builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
 
             services.AddDbContext<Context>(item => item.UseSqlServer(
             Configuration.GetConnectionString("IdentityConnection"),
-            b => b.MigrationsAssembly("DMSWebApplication")));
+            b => b.MigrationsAssembly("Domain")));
 
             services.AddScoped<IAuth, ServiceAuthen>();
 
-           /* //Roleee
-            services.AddIdentity<User, IdentityRole>(cfg =>
-            {
-            }).AddEntityFrameworkStores<Context>();
+            //Roleee
+            /* services.AddIdentity<User, IdentityRole>(cfg =>
+              {
+              }).AddEntityFrameworkStores<Context>();
 
-            services.AddDefaultIdentity<User>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<Context>(); */
+              services.AddDefaultIdentity<User>()
+              .AddRoles<IdentityRole>()
+              .AddEntityFrameworkStores<Context>();
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
+          /*   services.AddIdentity<IdentityUser>()
+                  .AddRoles<IdentityRole>()
+                 .AddEntityFrameworkStores<Context>()
+                 .AddDefaultTokenProviders();
+          */
+
+            /* services.Configure<IdentityOptions>(options =>
+             {
+                 options.Password.RequireNonAlphanumeric = false;
+                 options.Password.RequireDigit = false;
+                 options.Password.RequireLowercase = false;
+                 options.Password.RequireUppercase = false;
 
 
-            });
+             });*/
+
             services.AddCors();
 
 
             // JWT
 
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
-            services.AddAuthentication(x =>
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                    }; 
+                });
+
+            /*services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -115,12 +147,12 @@ namespace DMSWebApplication
                     ValidateIssuer = false,
                     ClockSkew = TimeSpan.Zero
                 };
-            });
+            });*/
 
-          //  services.AddMvc().AddNewtonsoftJson();
+            //  services.AddMvc().AddNewtonsoftJson();
 
-        // Upload File
-        services.Configure<FormOptions>(o =>
+            // Upload File
+            services.Configure<FormOptions>(o =>
             {
                 o.ValueLengthLimit = int.MaxValue;
                 o.MultipartBodyLengthLimit = int.MaxValue;
@@ -137,7 +169,7 @@ namespace DMSWebApplication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -146,7 +178,7 @@ namespace DMSWebApplication
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DMSWebApplication v1"));
             }
 
-            var addrole = CreateRoles(serviceProvider);
+           // var addrole = CreateRoles(serviceProvider);
 
             //migration database 
 
@@ -173,25 +205,38 @@ namespace DMSWebApplication
             {
                 endpoints.MapControllers();
             });
-           
+            Task.Run(() => this.CreateRoles(roleManager)).Wait();
         }
-        private async Task CreateRoles(IServiceProvider serviceProvider)
+        private async Task CreateRoles(RoleManager<IdentityRole> roleManager)
         {
-            //initializing custom roles 
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string[] roleNames = { "Admin", "Employee" };
-            IdentityResult roleResult;
-
-            foreach (var roleName in roleNames)
+            foreach (string role in this.Configuration.GetSection("Roles").Get<List<string>>())
             {
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
+                if (!await roleManager.RoleExistsAsync(role))
                 {
-                    //create the roles and seed them to the database
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    await roleManager.CreateAsync(new IdentityRole(role));
                 }
             }
-
         }
+
+
+        /* private async Task CreateRoles(IServiceProvider serviceProvider)
+         {
+             //initializing custom roles 
+             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+             string[] roleNames = { "Admin", "Employee" };
+             IdentityResult roleResult;
+
+             foreach (var roleName in roleNames)
+             {
+                 var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                 if (!roleExist)
+                 {
+                     //create the roles and seed them to the database 
+                     roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                 }
+             }
+
+         }*/
+
     }
 }

@@ -16,7 +16,7 @@ namespace Domain.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "6.0.0-preview.1.21102.2")
+                .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Domain.Model.File", b =>
@@ -41,8 +41,8 @@ namespace Domain.Migrations
                     b.Property<double>("FileSize")
                         .HasColumnType("float");
 
-                    b.Property<int>("FileStatut")
-                        .HasColumnType("int");
+                    b.Property<string>("FileStatut")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FileVersion")
                         .HasColumnType("int");
@@ -56,7 +56,7 @@ namespace Domain.Migrations
 
                     b.HasIndex("FileOwnerId");
 
-                    b.ToTable("File");
+                    b.ToTable("Fichier");
                 });
 
             modelBuilder.Entity("Domain.Model.Folder", b =>
@@ -84,11 +84,62 @@ namespace Domain.Migrations
                     b.Property<double>("FolderSize")
                         .HasColumnType("float");
 
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ParentFolderFolderId")
+                        .HasColumnType("int");
+
                     b.HasKey("FolderId");
 
                     b.HasIndex("FolderOwnerId");
 
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("ParentFolderFolderId");
+
                     b.ToTable("Folder");
+                });
+
+            modelBuilder.Entity("Domain.Model.Group", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GroupName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GroupOwnerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("GroupId");
+
+                    b.HasIndex("GroupOwnerId");
+
+                    b.ToTable("Group");
+                });
+
+            modelBuilder.Entity("Domain.Model.GroupUser", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("GroupId", "Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GroupUser");
                 });
 
             modelBuilder.Entity("Domain.Model.User", b =>
@@ -268,9 +319,14 @@ namespace Domain.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles");
                 });
@@ -297,11 +353,11 @@ namespace Domain.Migrations
             modelBuilder.Entity("Domain.Model.File", b =>
                 {
                     b.HasOne("Domain.Model.Folder", "FileFolder")
-                        .WithMany()
+                        .WithMany("Files")
                         .HasForeignKey("FileFolderFolderId");
 
                     b.HasOne("Domain.Model.User", "FileOwner")
-                        .WithMany()
+                        .WithMany("Files")
                         .HasForeignKey("FileOwnerId");
 
                     b.Navigation("FileFolder");
@@ -312,10 +368,46 @@ namespace Domain.Migrations
             modelBuilder.Entity("Domain.Model.Folder", b =>
                 {
                     b.HasOne("Domain.Model.User", "FolderOwner")
-                        .WithMany()
+                        .WithMany("Folders")
                         .HasForeignKey("FolderOwnerId");
 
+                    b.HasOne("Domain.Model.Group", null)
+                        .WithMany("GroupFolders")
+                        .HasForeignKey("GroupId");
+
+                    b.HasOne("Domain.Model.Folder", "ParentFolder")
+                        .WithMany("ChildFolders")
+                        .HasForeignKey("ParentFolderFolderId");
+
                     b.Navigation("FolderOwner");
+
+                    b.Navigation("ParentFolder");
+                });
+
+            modelBuilder.Entity("Domain.Model.Group", b =>
+                {
+                    b.HasOne("Domain.Model.User", "GroupOwner")
+                        .WithMany()
+                        .HasForeignKey("GroupOwnerId");
+
+                    b.Navigation("GroupOwner");
+                });
+
+            modelBuilder.Entity("Domain.Model.GroupUser", b =>
+                {
+                    b.HasOne("Domain.Model.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Group");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -358,6 +450,10 @@ namespace Domain.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.Model.User", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -367,6 +463,27 @@ namespace Domain.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Model.Folder", b =>
+                {
+                    b.Navigation("ChildFolders");
+
+                    b.Navigation("Files");
+                });
+
+            modelBuilder.Entity("Domain.Model.Group", b =>
+                {
+                    b.Navigation("GroupFolders");
+                });
+
+            modelBuilder.Entity("Domain.Model.User", b =>
+                {
+                    b.Navigation("Files");
+
+                    b.Navigation("Folders");
+
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }
