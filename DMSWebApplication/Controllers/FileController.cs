@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DMSWebApplication.Controllers
 {
-    [EnableCors("MyPolicyCors")]
+   // [EnableCors("MyPolicyCors")]
     [Route("file")]
     [ApiController]
     public class FileController : ControllerBase
@@ -30,7 +30,18 @@ namespace DMSWebApplication.Controllers
 
         //GET filles 
         [HttpGet("GetAllFiles")]
-        public IActionResult  GetAllFiles()
+        public List<File> GetAllFiles()
+        {
+            try
+            {
+                return _context.Files.ToList();
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+       /* public IActionResult GetAllFiles()
         {
             try
             {
@@ -42,7 +53,7 @@ namespace DMSWebApplication.Controllers
             {
                 throw ;
             }
-        }
+        }*/
 
 
           /*[HttpGet("searchfiles")]
