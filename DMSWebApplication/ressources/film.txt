@@ -1,0 +1,69 @@
+import java.util.Arrays;
+public class Film {
+	private String title ;
+    private String summary ;
+    private int years ;
+    private Name director ;
+    private Name [] actors ;
+    
+    public Film()
+    {}
+    
+    
+    //les getters et les setters
+    
+    public String gettitle() {
+		return title;
+	}
+public void settitle(String title) {
+		this.title = title;
+	}    
+    
+ public String getsummary() {
+		return summary;
+	}
+public void setsummary (String summary) {
+		this.summary = summary;
+	}    
+
+ public int getyears() {
+		return years;
+	}
+public void setyears (int years) {
+		this.years = years;
+	} 
+public Name getdirector() {
+	return director;
+}
+public void setdirector (Name director) {
+	this.director = director;
+}
+
+public Name[] getactors() {
+	return actors;
+}
+public void setactors(Name[] actors) {
+	this.actors = actors;
+}
+
+@Override
+public String toString(){
+	StringBuilder sb = new StringBuilder();
+	sb.append("***** Film Details *****\n");
+	sb.append("title="+gettitle()+"\n");
+	sb.append("summary="+getsummary()+"\n");
+	sb.append("years="+getyears()+"\n");
+	sb.append("director="+getdirector()+"\n");
+	sb.append("actors="+Arrays.toString(getactors())+"\n");
+	sb.append("\n**********************");
+	
+	return sb.toString();
+}
+
+
+public static void main(String []args) {
+	Film F1 = new Film();
+			F1.settitle("Les misérables");
+	System.out.println(F1.gettitle());
+}
+}
