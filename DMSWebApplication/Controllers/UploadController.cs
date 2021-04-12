@@ -21,7 +21,6 @@ namespace DMSWebApplication.Controllers
 {
     [ApiController]
     [Route("api")]
-
     public class UploadController : ControllerBase
     {
         private readonly Context _context;
@@ -31,6 +30,7 @@ namespace DMSWebApplication.Controllers
             _context = context;
             _httpContextAccessor = httpContextAccessor;
         }
+
         [HttpPost]
         [Route("upload")]
          public IActionResult Upload(IFormFile file)
@@ -40,6 +40,7 @@ namespace DMSWebApplication.Controllers
                  File f = new File();
                  var filePath = Path.Combine(@"ressources", file.FileName);
 
+<<<<<<< HEAD
                  if (file.Length > 0)
                  {
                      var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
@@ -92,12 +93,54 @@ namespace DMSWebApplication.Controllers
 
              }
          }
+=======
+                if (file.Length > 0)
+                {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var dbPath = Path.Combine(fileName);
+                    var serverpath = Path.Combine(fileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                    f.FileName = fileName;
+                    f.FilePath = serverpath;
+                    f.FileSize = file.Length;
+                    f.FileVersion = 1;
+
+                    // var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
+                    // var user = _context.Users.Where(u => u.Id == "UserId").FirstOrDefault();
+
+                    var folder = _context.Folder.FirstOrDefault();
+                    folder.ElementNumber = folder.ElementNumber += 1;
+                    folder.FolderSize = folder.FolderSize + file.Length;
+                    f.FileFolder = folder;
+                   //f.FileOwner = user;
+                    f.UploadDate = DateTime.Now.Date;
+                    f.FileOwner = null;
+                    f.FileFolder = null;
+                    f.FileStatut = 0;
+
+                    _context.Add(f);
+                    _context.SaveChanges();
+
+                    return Ok(new { dbPath });
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+        }
+>>>>>>> 8fb899ff33e8d57d8fd4eaad632117041bc679f4
 
         [HttpGet("download")]
         public async Task<IActionResult> Download([FromQuery] string FileName)
         {
             var filePath = Path.Combine(@"ressources", FileName);
             if (!System.IO.File.Exists(filePath))
+
                 return NotFound();
 
             var memory = new MemoryStream();
@@ -119,7 +162,6 @@ namespace DMSWebApplication.Controllers
                 }
                 return contentType;
             }
-
     }
 }
 

@@ -21,9 +21,10 @@ using Domain.Model;
 
 namespace DMSWebApplication.Controllers
 {
-   // [Authorize(Roles = "Admin")]
-    [Route("api/[controller]")]
+    // [Authorize(Roles = "Admin")]
     [ApiController]
+    [Route("api")]
+
     public class AdminController : ControllerBase
     {
         private Context _context;
@@ -36,8 +37,8 @@ namespace DMSWebApplication.Controllers
         }
 
 
-
        
+
 
     }
 

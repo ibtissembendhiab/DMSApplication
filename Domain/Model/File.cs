@@ -21,14 +21,14 @@ namespace Domain.Model
         public User FileOwner { get; set; }
 
         public Folder FileFolder { get; set; }
-        public string  FileStatut { get; set; }
+        public Statut FileStatut { get; set; }
 
     } 
- /*public enum Statut
+ public enum Statut
     {
         notarchived,
         archived,
         locked,
         Unlocked
-    }*/
+    }
 }

@@ -77,8 +77,12 @@ namespace PFE.WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<Object> Delete(string id) => await _authServices.Delete(id);
 
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public List<User> GetAll() => _authServices.GetAll();
 
-          [HttpGet]
+
+        /*  [HttpGet]
          // [Authorize]
           [Route("GetUserProfile")]
           //GET : /api/UserProfile
@@ -93,12 +97,12 @@ namespace PFE.WebAPI.Controllers
                   user.UserName,
                   user.Email 
               };
-          }
+          }*/
 
 
         /* [HttpGet]
          [Authorize]  //error 401
-         [Route("GetUserProfile")]
+         [Route("GetAllUserProfile")]
          public IActionResult GetAllUsers()
          {
              try
@@ -112,9 +116,9 @@ namespace PFE.WebAPI.Controllers
                  throw;
              }
          }*/
-        [HttpPost("addgroup")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
+        [HttpPost("addgroup")]
+      //  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [AllowAnonymous]
         //[FromBody]
         public async Task<IActionResult> RegisterGroup([FromBody] Group group)
@@ -125,12 +129,10 @@ namespace PFE.WebAPI.Controllers
 
             //group.GroupOwner = user;
             group.CreatedDate = DateTime.Now.Date;
-           // group.GroupFolders.Add(groupspacefolder);
 
-            //_context.Folder.Add(spacefolder);
             Folder parent = _context.Folder.Where(f => f.FolderId == 1).FirstOrDefault();
 
-            Folder Foldercontainer = new Folder()
+          /*  Folder Foldercontainer = new Folder()
             {
                 FolderName = group.GroupName + "checkpoint",
                 FolderPath = group.GroupName + "/",
@@ -138,11 +140,8 @@ namespace PFE.WebAPI.Controllers
                // FolderOwner = user,
                 ParentFolder = parent,
                 DateOfCreate = DateTime.Now.Date
-            };
-
-
-            _context.Folder.Add(Foldercontainer);
-
+            };*/
+           // _context.Folder.Add(Foldercontainer);
 
             if (ModelState.IsValid)
             {
@@ -153,6 +152,49 @@ namespace PFE.WebAPI.Controllers
             }
 
             return Ok("adding group was failed");
+        }
+
+        [HttpGet]
+        [Route("getgroups")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Getallgroups()
+        {
+            try
+            {
+                var groups = _context.Group.ToList();
+
+                return Ok(groups);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+
+
+        [HttpPost("addusertogroup")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddUsertoGroup()
+        {
+
+            //var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
+            var user = _context.Users.Where(u => u.Id == "b06ccfdd-f7f3-47ec-aaba-81efbb01b700").FirstOrDefault();
+
+            var group = _context.Group.Where(u => u.GroupId == 1).FirstOrDefault();
+
+            GroupUser gu = new GroupUser();
+            gu.Group = group;
+            gu.User = user;
+            gu.Id = user.Id;
+
+            if (ModelState.IsValid)
+            {
+                _context.GroupUser.Add(gu);
+                _context.SaveChanges();
+
+                return Ok("user was to group ");
+            }
+            return Ok("adding user to the group  was faild");
         }
 
     }

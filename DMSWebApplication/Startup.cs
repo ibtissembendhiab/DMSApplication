@@ -77,29 +77,15 @@ namespace DMSWebApplication
             });
 
 
-
-           // builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
-
             services.AddDbContext<Context>(item => item.UseSqlServer(
             Configuration.GetConnectionString("IdentityConnection"),
             b => b.MigrationsAssembly("Domain")));
 
             services.AddScoped<IAuth, ServiceAuthen>();
+            services.AddScoped<IFile, ServiceFile>();
 
-            //Roleee
-            /* services.AddIdentity<User, IdentityRole>(cfg =>
-              {
-              }).AddEntityFrameworkStores<Context>();
 
-              services.AddDefaultIdentity<User>()
-              .AddRoles<IdentityRole>()
-              .AddEntityFrameworkStores<Context>();
-
-          /*   services.AddIdentity<IdentityUser>()
-                  .AddRoles<IdentityRole>()
-                 .AddEntityFrameworkStores<Context>()
-                 .AddDefaultTokenProviders();
-          */
+           
 
             /* services.Configure<IdentityOptions>(options =>
              {
@@ -107,15 +93,11 @@ namespace DMSWebApplication
                  options.Password.RequireDigit = false;
                  options.Password.RequireLowercase = false;
                  options.Password.RequireUppercase = false;
-
-
              });*/
 
             services.AddCors();
 
-
             // JWT
-
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -125,9 +107,17 @@ namespace DMSWebApplication
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(key),
                         ValidateAudience = false,
-                        ValidateIssuer = false,
+                        ValidateIssuer = false
                     }; 
                 });
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
+
+           
 
             /*services.AddAuthentication(x =>
             {
@@ -149,7 +139,6 @@ namespace DMSWebApplication
                 };
             });*/
 
-            //  services.AddMvc().AddNewtonsoftJson();
 
             // Upload File
             services.Configure<FormOptions>(o =>
@@ -158,15 +147,14 @@ namespace DMSWebApplication
                 o.MultipartBodyLengthLimit = int.MaxValue;
                 o.MemoryBufferThreshold = int.MaxValue;
             });
+
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         }
 
 
-        private void AddJwtBearer(Action<object> p)
-        {
-            throw new NotImplementedException();
-        }
+        //  private void AddJwtBearer(Action<object> p){throw new NotImplementedException();}
+         
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RoleManager<IdentityRole> roleManager)
@@ -178,10 +166,7 @@ namespace DMSWebApplication
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DMSWebApplication v1"));
             }
 
-           // var addrole = CreateRoles(serviceProvider);
-
             //migration database 
-
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<Context>();
@@ -205,6 +190,7 @@ namespace DMSWebApplication
             {
                 endpoints.MapControllers();
             });
+
             Task.Run(() => this.CreateRoles(roleManager)).Wait();
         }
         private async Task CreateRoles(RoleManager<IdentityRole> roleManager)

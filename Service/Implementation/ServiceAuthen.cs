@@ -112,18 +112,14 @@ namespace Service.Implementation
             };
             var result = await _userManager.CreateAsync(cuser, model.Password);
 
+            var dbUser = await _userManager.FindByNameAsync(cuser.UserName);
+            await _userManager.AddToRoleAsync(dbUser, model.Role);
+
             if (!result.Succeeded)
             {
                 return "failed";
             }
-
-            var dbUser = await _userManager.FindByNameAsync(cuser.UserName);
-            await _userManager.AddToRoleAsync(dbUser, model.Role);
-
-          //  var datenow = DateTime.Now.Date;
-           // var date = datenow.ToString("dd/MM/yyyy");
-
-
+       
             if (!_context.Folder.Any())
             {
                 Folder folderMySpace = new Folder()
@@ -192,10 +188,17 @@ namespace Service.Implementation
             }
         }
 
-        public Task<object> GetUserProfile()
+        public List<User> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _context.Users.OrderBy(x => x.FirstName).ToList();
+            }
+            catch (Exception ex)
+            {
+                //ErrorManager.ErrorHandler.HandleError(ex);
+                throw;
+            }
         }
-
     }
 }

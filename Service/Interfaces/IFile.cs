@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.Model;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace Service.Interfaces
 {
    public interface IFile
     {
-       Task<string> Upload([FromForm] int idfolder);
+        List<File> GetAllFiles();
+        bool DeleteFile(int FileId);
+        //Task<IActionResult> Archivefile(int FileId);
     }
 }

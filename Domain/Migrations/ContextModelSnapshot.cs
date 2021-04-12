@@ -41,8 +41,8 @@ namespace Domain.Migrations
                     b.Property<double>("FileSize")
                         .HasColumnType("float");
 
-                    b.Property<string>("FileStatut")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FileStatut")
+                        .HasColumnType("int");
 
                     b.Property<int>("FileVersion")
                         .HasColumnType("int");
