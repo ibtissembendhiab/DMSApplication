@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Domain.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -162,6 +162,27 @@ namespace Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Group",
+                columns: table => new
+                {
+                    GroupId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GroupOwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Group", x => x.GroupId);
+                    table.ForeignKey(
+                        name: "FK_Group_AspNetUsers_GroupOwnerId",
+                        column: x => x.GroupOwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Folder",
                 columns: table => new
                 {
@@ -173,7 +194,8 @@ namespace Domain.Migrations
                     FolderOwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ParentFolderFolderId = table.Column<int>(type: "int", nullable: true),
                     ElementNumber = table.Column<int>(type: "int", nullable: false),
-                    DateOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -190,6 +212,37 @@ namespace Domain.Migrations
                         principalTable: "Folder",
                         principalColumn: "FolderId",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Folder_Group_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Group",
+                        principalColumn: "GroupId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupUser",
+                columns: table => new
+                {
+                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupUser", x => new { x.GroupId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_GroupUser_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GroupUser_Group_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Group",
+                        principalColumn: "GroupId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,7 +258,7 @@ namespace Domain.Migrations
                     UploadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FileOwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     FileFolderFolderId = table.Column<int>(type: "int", nullable: true),
-                    FileStatut = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    FileStatut = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -284,9 +337,24 @@ namespace Domain.Migrations
                 column: "FolderOwnerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Folder_GroupId",
+                table: "Folder",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Folder_ParentFolderFolderId",
                 table: "Folder",
                 column: "ParentFolderFolderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Group_GroupOwnerId",
+                table: "Group",
+                column: "GroupOwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupUser_UserId",
+                table: "GroupUser",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -310,10 +378,16 @@ namespace Domain.Migrations
                 name: "Fichier");
 
             migrationBuilder.DropTable(
+                name: "GroupUser");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Folder");
+
+            migrationBuilder.DropTable(
+                name: "Group");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

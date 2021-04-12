@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210405102357_groupe")]
-    partial class groupe
+    [Migration("20210409201500_Initialcreate")]
+    partial class Initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,8 +43,8 @@ namespace Domain.Migrations
                     b.Property<double>("FileSize")
                         .HasColumnType("float");
 
-                    b.Property<string>("FileStatut")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FileStatut")
+                        .HasColumnType("int");
 
                     b.Property<int>("FileVersion")
                         .HasColumnType("int");

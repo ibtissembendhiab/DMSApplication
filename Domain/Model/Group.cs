@@ -16,6 +16,7 @@ namespace Domain.Model
         public DateTime CreatedDate { get; set; }
         public ICollection<Folder> GroupFolders { get; set; }
 
+        public ICollection<GroupUser> ListUsersInGroup { get; set; }
 
     }
 }

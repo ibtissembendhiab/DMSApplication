@@ -18,9 +18,10 @@ namespace Domain.Data
         public DbSet<Folder> Folder { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<Group> Group { get; set; }
-
-       // public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
         //public object File { get; set; }
+        public DbSet<GroupUser>GroupUser{ get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
