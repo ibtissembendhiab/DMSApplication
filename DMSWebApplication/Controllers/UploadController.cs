@@ -16,6 +16,11 @@ using File = Domain.Model.File;
 using Service.Implementation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
+using System.Security.Claims;
+using System.Threading;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using System.Security;
 
 namespace DMSWebApplication.Controllers
 {
@@ -24,10 +29,12 @@ namespace DMSWebApplication.Controllers
     public class UploadController : ControllerBase
     {
         private readonly Context _context;
+        private UserManager<User> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UploadController(Context context, IHttpContextAccessor httpContextAccessor)
+        public UploadController(Context context, IHttpContextAccessor httpContextAccessor, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -56,13 +63,13 @@ namespace DMSWebApplication.Controllers
                     f.FileVersion = 1;
 
                     // var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
-                    // var user = _context.Users.Where(u => u.Id == "UserId").FirstOrDefault();
+                    var user = _context.Users.Where(u => u.Id == "UserId").FirstOrDefault();
 
-                    var folder = _context.Folder.FirstOrDefault();
-                    folder.ElementNumber = folder.ElementNumber += 1;
-                    folder.FolderSize = folder.FolderSize + file.Length;
-                    f.FileFolder = folder;
-                   //f.FileOwner = user;
+                    // var folder = _context.Folder.FirstOrDefault();
+                    // folder.ElementNumber = folder.ElementNumber += 1;
+                    // folder.FolderSize = folder.FolderSize + file.Length;
+                    // f.FileFolder = folder;
+                    f.FileOwner = user;
                     f.UploadDate = DateTime.Now.Date;
                     f.FileOwner = null;
                     f.FileFolder = null;

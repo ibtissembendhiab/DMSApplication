@@ -1,16 +1,17 @@
 ﻿using Domain.Data;
 using Domain.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Repository.Interfaces;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using File = Domain.Model.File;
 
 namespace DMSWebApplication.Controllers
 {
@@ -59,7 +60,7 @@ namespace DMSWebApplication.Controllers
             file.FileStatut = Statut.notarchived;
             _context.Files.Update(file);
             await _context.SaveChangesAsync();
-            return Ok("archived");
+            return Ok("restored");
         }
 
         [HttpGet("archivedfiles")]
@@ -68,7 +69,7 @@ namespace DMSWebApplication.Controllers
         {
             try
             { 
-                var files = _context.Files.Include(f => f.FileOwner).Include(f => f.FileFolder.FolderGroup).Where(f => f.FileStatut == Statut.archived).ToList();
+                var files = _context.Files.Include(f => f.FileOwner).Where(f => f.FileStatut == Statut.archived).ToList();
                 return Ok(files);
             }
             catch (Exception ex)
@@ -84,11 +85,12 @@ namespace DMSWebApplication.Controllers
        [AllowAnonymous]
        public IActionResult Searchfiles()
        {
-           var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
-           var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
+         //  var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "UserId").SingleOrDefault().Value;
+           var user = _context.Users.Where(u => u.Id == "userId").FirstOrDefault();
            var listefile = _context.Files.Where(f => f.FileOwner == user).ToList();
 
            return Ok(listefile);
-       } 
+       }
+
     }
 }

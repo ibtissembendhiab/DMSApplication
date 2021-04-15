@@ -1,0 +1,61 @@
+package projetintegration;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.json.JsonObject;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonReader;
+import javax.json.JsonValue;
+
+
+
+
+public class ReadJSONfile {
+
+	public static final String JSON_FILE="C:/integration.json";
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		
+		InputStream fis = new FileInputStream(JSON_FILE);
+		
+		//create JsonReader object
+         JsonReader jsonReader = Json.createReader(fis);
+ 		
+         //get JsonObject from JsonReader
+         JsonObject jsonObject = jsonReader.readObject();
+ 		
+         //close IO resource and JsonReader 
+        jsonReader.close();
+		fis.close();
+		
+		//Retrieve data from JsonObject and create Film bean
+		film F= new film();
+		//title 
+		F.settitle(jsonObject.getString("title"));
+		//summary
+		F.setsummary(jsonObject.getString("summary"));
+		//year
+		F.setyears(jsonObject.getInt("years"));
+		
+		JsonObject innerJsonObject = jsonObject.getJsonObject("director");
+		personne director = new personne();
+		director.setFirst_name(innerJsonObject.getString("first_name"));
+		director.setLast_name(innerJsonObject.getString("last_name"));
+		F.setdirector(director);	
+
+            //reading arrays from json
+					JsonArray jsonArray = jsonObject.getJsonArray("actors");
+					System.out.print("actors=");
+					for(JsonValue value : jsonArray){
+					       System.out.print(value.toString());
+					
+					
+					}
+
+        //print employee bean information
+        System.out.println(F);
+
+    }
+
+}

@@ -28,11 +28,9 @@ namespace Service.Implementation
             UserManager<User> userManager,
             IPasswordHasher<User> passwordHasher,
             RoleManager<IdentityRole> roleManager,
-         SignInManager<User> signInManager,
-        IOptions<ApplicationSettings> appSettings,
-        Context context
-                )
-
+            SignInManager<User> signInManager,
+            IOptions<ApplicationSettings> appSettings,
+            Context context )
         {
             _passwordHasher = passwordHasher;
             _userManager = userManager;
@@ -45,7 +43,7 @@ namespace Service.Implementation
         public async Task<object> Login(LoginModel model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
-            //var role = await _userManager.GetRolesAsync(user);
+            // var role = await _userManager.GetRolesAsync(user);
             //var v = role[0];
             // var signingKey = Convert.FromBase64String(_appSettings.JWT_Secret);
             //var result = await _userManager.CheckPasswordAsync(user, model.Password);
@@ -61,7 +59,6 @@ namespace Service.Implementation
             if (!result.Succeeded)
             {
                 return "Password Incorrect";
-                //return "Password not correct";
             }
 
             return (new { 
@@ -102,7 +99,6 @@ namespace Service.Implementation
 
         public async Task<object> Register(Register model)
         {
-           // model.Role = "Admin";
             var cuser = new User
             {
                 FirstName = model.FirstName,
@@ -120,19 +116,19 @@ namespace Service.Implementation
                 return "failed";
             }
        
-            if (!_context.Folder.Any())
-            {
+           if (_context == null && model.Role == "Employee")
+           {
                 Folder folderMySpace = new Folder()
                 {
                     FolderName = "My space",
                     FolderPath = "",
                     DateOfCreate = DateTime.Now.Date,
-                    FolderOwner= cuser
+                    FolderOwner= cuser,
                 };
 
                 _context.Folder.Add(folderMySpace);
                 _context.SaveChanges();
-            }
+           }
             return result;
         }
 
@@ -196,7 +192,6 @@ namespace Service.Implementation
             }
             catch (Exception ex)
             {
-                //ErrorManager.ErrorHandler.HandleError(ex);
                 throw;
             }
         }
