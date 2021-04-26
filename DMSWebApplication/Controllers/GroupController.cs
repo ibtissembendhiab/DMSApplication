@@ -27,9 +27,9 @@ namespace DMSWebApplication.Controllers
         public async Task<IActionResult> RegisterGroup([FromBody] Group group)
         {
 
-            //var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
-            //var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
-            //group.GroupOwner = user;
+            var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
+            var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
+            group.GroupOwner = user;
 
             group.CreatedDate = DateTime.Now.Date;
 
@@ -88,8 +88,8 @@ namespace DMSWebApplication.Controllers
         public async Task<IActionResult>AddUsertoGroup()
         {
 
-            //var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
-            var user = _context.Users.Where(u => u.Id == "a939bafc-95d1-4ca1-8aa0-0a828cd43dbc").FirstOrDefault();
+            var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
+            var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
 
             var group = _context.Group.Where(u => u.GroupId == 1).FirstOrDefault();
 

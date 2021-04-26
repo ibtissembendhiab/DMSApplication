@@ -15,7 +15,7 @@ using File = Domain.Model.File;
 
 namespace DMSWebApplication.Controllers
 {
-    ////[EnableCors("MyPolicyCors")]
+   // [EnableCors("MyPolicyCors")]
     [Route("file")]
     [ApiController]
     public class FileController : ControllerBase
@@ -32,6 +32,7 @@ namespace DMSWebApplication.Controllers
         //GET filles 
         [HttpGet("GetAllFiles")]
         public List<File> GetAll() => _serviceFile.GetAllFiles();
+
 
         //Delete File
         [HttpDelete("DeleteFile{FileId}")]
@@ -56,7 +57,6 @@ namespace DMSWebApplication.Controllers
         public async Task<IActionResult> Restorefile(int FileId)
         {
             var file = await _context.Files.FindAsync(FileId);
-
             file.FileStatut = Statut.notarchived;
             _context.Files.Update(file);
             await _context.SaveChangesAsync();

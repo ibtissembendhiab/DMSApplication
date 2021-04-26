@@ -40,12 +40,12 @@ namespace DMSWebApplication.Controllers
 
         [HttpPost]
         [Route("upload")]
-        public IActionResult Upload(IFormFile file)
-        {
-            {
+         public IActionResult Upload(IFormFile file)
+         {
+             {
 
-                File f = new File();
-                var filePath = Path.Combine(@"ressources", file.FileName);
+                 File f = new File();
+                 var filePath = Path.Combine(@"ressources", file.FileName);
 
                 if (file.Length > 0)
                 {
