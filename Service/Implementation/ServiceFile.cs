@@ -2,6 +2,7 @@
 using Domain.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 using Service.Interfaces;
 using System;
@@ -43,7 +44,7 @@ namespace Service.Implementation
         {
             try
             {
-                return _context.Files.ToList();
+                return _context.Files.Include(f => f.FileOwner).Where(f => f.FileStatut == Statut.notarchived).ToList();
             }
             catch (Exception ex)
             {

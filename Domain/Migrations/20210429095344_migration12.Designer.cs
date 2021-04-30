@@ -10,10 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(Context))]
-
-    [Migration("20210405160014_initial")]
-    partial class initial
-
+    [Migration("20210429095344_migration12")]
+    partial class migration12
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,6 +74,9 @@ namespace Domain.Migrations
                     b.Property<int>("ElementNumber")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FolderGroupGroupId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FolderName")
                         .HasColumnType("nvarchar(max)");
 
@@ -88,17 +89,14 @@ namespace Domain.Migrations
                     b.Property<double>("FolderSize")
                         .HasColumnType("float");
 
-                    b.Property<int?>("GroupId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("ParentFolderFolderId")
                         .HasColumnType("int");
 
                     b.HasKey("FolderId");
 
-                    b.HasIndex("FolderOwnerId");
+                    b.HasIndex("FolderGroupGroupId");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex("FolderOwnerId");
 
                     b.HasIndex("ParentFolderFolderId");
 
@@ -114,6 +112,9 @@ namespace Domain.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GroupName")
                         .HasColumnType("nvarchar(max)");
@@ -371,17 +372,19 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Model.Folder", b =>
                 {
+                    b.HasOne("Domain.Model.Group", "FolderGroup")
+                        .WithMany("GroupFolders")
+                        .HasForeignKey("FolderGroupGroupId");
+
                     b.HasOne("Domain.Model.User", "FolderOwner")
                         .WithMany("Folders")
                         .HasForeignKey("FolderOwnerId");
 
-                    b.HasOne("Domain.Model.Group", null)
-                        .WithMany("GroupFolders")
-                        .HasForeignKey("GroupId");
-
                     b.HasOne("Domain.Model.Folder", "ParentFolder")
                         .WithMany("ChildFolders")
                         .HasForeignKey("ParentFolderFolderId");
+
+                    b.Navigation("FolderGroup");
 
                     b.Navigation("FolderOwner");
 
@@ -400,7 +403,7 @@ namespace Domain.Migrations
             modelBuilder.Entity("Domain.Model.GroupUser", b =>
                 {
                     b.HasOne("Domain.Model.Group", "Group")
-                        .WithMany()
+                        .WithMany("ListUsersInGroup")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -479,6 +482,8 @@ namespace Domain.Migrations
             modelBuilder.Entity("Domain.Model.Group", b =>
                 {
                     b.Navigation("GroupFolders");
+
+                    b.Navigation("ListUsersInGroup");
                 });
 
             modelBuilder.Entity("Domain.Model.User", b =>

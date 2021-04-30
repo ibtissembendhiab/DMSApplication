@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Domain.Migrations
 {
-    public partial class Initialcreate : Migration
+    public partial class migration12 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -168,6 +168,7 @@ namespace Domain.Migrations
                     GroupId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GroupOwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -195,7 +196,7 @@ namespace Domain.Migrations
                     ParentFolderFolderId = table.Column<int>(type: "int", nullable: true),
                     ElementNumber = table.Column<int>(type: "int", nullable: false),
                     DateOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: true)
+                    FolderGroupGroupId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -213,8 +214,8 @@ namespace Domain.Migrations
                         principalColumn: "FolderId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Folder_Group_GroupId",
-                        column: x => x.GroupId,
+                        name: "FK_Folder_Group_FolderGroupGroupId",
+                        column: x => x.FolderGroupGroupId,
                         principalTable: "Group",
                         principalColumn: "GroupId",
                         onDelete: ReferentialAction.Restrict);
@@ -332,14 +333,14 @@ namespace Domain.Migrations
                 column: "FileOwnerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Folder_FolderGroupGroupId",
+                table: "Folder",
+                column: "FolderGroupGroupId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Folder_FolderOwnerId",
                 table: "Folder",
                 column: "FolderOwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Folder_GroupId",
-                table: "Folder",
-                column: "GroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Folder_ParentFolderFolderId",
