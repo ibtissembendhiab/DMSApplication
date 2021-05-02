@@ -119,7 +119,7 @@ namespace DMSWebApplication
 
            
 
-            /*services.AddAuthentication(x =>
+           /* services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -137,7 +137,8 @@ namespace DMSWebApplication
                     ValidateIssuer = false,
                     ClockSkew = TimeSpan.Zero
                 };
-            });*/
+            });
+           */
 
 
             // Upload File

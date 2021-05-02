@@ -54,12 +54,11 @@ namespace DMSWebApplication.Controllers
         }
 
         [HttpPost("addFolderIngroup")]
-       // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult addFolderIngroup([FromBody] JObject folderData)
-        {
-           // var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
-           // var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
+        { 
+           var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
+           var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
             var folderName = folderData["folderName"].ToString();
             var folderPath = folderData["folderPath"].ToString();
             var foldergroupid = int.Parse(folderData["foldergroupid"].ToString());

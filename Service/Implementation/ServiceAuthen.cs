@@ -116,12 +116,12 @@ namespace Service.Implementation
                 return "failed";
             }
        
-           if (_context == null && model.Role == "Employee")
+           if (model.Role == "Employee")
            {
                 Folder folderMySpace = new Folder()
                 {
-                    FolderName = "My space",
-                    FolderPath = "",
+                    FolderName = "Myspace",
+                    FolderPath = "Myspace/",
                     DateOfCreate = DateTime.Now.Date,
                     FolderOwner= cuser,
                 };

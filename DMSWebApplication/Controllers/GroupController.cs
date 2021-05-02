@@ -1,5 +1,6 @@
 ﻿using Domain.Data;
 using Domain.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using File = Domain.Model.File;
 
@@ -25,30 +27,29 @@ namespace DMSWebApplication.Controllers
         }
 
         [HttpPost("addgroup")]
-        //  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [AllowAnonymous]
+          [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[FromBody]
         public async Task<IActionResult> RegisterGroup([FromBody] Group group)
         {
+            List<Claim> ls = HttpContext.User.Claims.ToList();
+            var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
+            var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
 
-            //var userIdClaim = HttpContext.User.Claims.Where(x => x.Type == "userId").SingleOrDefault().Value;
-            //var user = _context.Users.Where(u => u.Id == userIdClaim).FirstOrDefault();
-
-            // group.GroupOwner = user;
+             group.GroupOwner = user;
             group.CreatedDate = DateTime.Now.Date;
 
-            Folder parent = _context.Folder.Where(f => f.FolderId == 1).FirstOrDefault();
+            Folder parent = _context.Folder.Where(f => f.FolderName == "Myspace").FirstOrDefault();
 
               Folder Foldercontainer = new Folder()
               {
-                  FolderName = group.GroupName + "checkpoint",
+                  FolderName = group.GroupName,
                   FolderPath = group.GroupName + "/",
-                 // FolderGroup = group,
-                 // FolderOwner = user,
+                  FolderGroup = group,
+                  FolderOwner = user,
                   ParentFolder = parent,
                   DateOfCreate = DateTime.Now.Date
-              };
-            // _context.Folder.Add(Foldercontainer);
+              }; 
+             _context.Folder.Add(Foldercontainer);
 
             if (ModelState.IsValid)
             {
